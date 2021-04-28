@@ -1,0 +1,6 @@
+weapons/pistol/magnum HD50FIR1
+weapons/50AM_Mag/MagOut HD50REL1
+weapons/50AM_Mag/MagIn HD50REL2
+
+$random weapons/50AM_Mag/SlideLock {weapons/pistoldry}
+$random weapons/50AM_Mag/SlideFwd {weapons/pischamber2}

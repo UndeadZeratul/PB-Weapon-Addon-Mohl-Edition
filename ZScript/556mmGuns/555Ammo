@@ -1,0 +1,53 @@
+//Basically 5.56 NATO, even though 5.56 NATO actually exists in the lore
+/*
+From the ZM66 section from the manual.
+
+The basic infantryman's weapon of the 32nd century. 
+A very lightweight select-fire weapon that fires up to 2100 rounds per minute, 
+the Volt ZM66 represents the highest evolution of its state-of-the-art ammunition. 
+As a refinement of the principles behind the old 5.56 NATO, the 4.26mm UAC 
+Standard round packs an incredible amount of punch for its size. The 4.26mm 
+UAC Standard round is protected by a special non-terminating legislative patent 
+and a 99-year automatically renewed confidential exclusive contract with the militaries 
+of all developed Western nations listed in the federal Officially Freedom-Loving Foreign 
+Countries Trade Partnership Protocols, guaranteeing a safe and reliable supply.
+
+As a refinement of the principles behind the old 5.56 NATO, the 4.26mm UAC 
+(just replace 5.56 NATO with 5.55 UNATCO, and it's good.)
+*/
+
+class HDB_555UNATCO:HDBulletActor{
+	default{
+		pushfactor 0.2;
+		mass 45;
+		speed 1250;
+		accuracy 590;
+		stamina 426;
+		woundhealth 20;
+		hdbulletactor.hardness 3;
+		hdbulletactor.distantsounder "DistantRifle";
+	}
+}
+
+class HD_555UNATCOAMMO:HDAmmo{
+	default{
+		+forcexybillboard +cannotpush
+		+inventory.ignoreskill
+		+hdpickup.multipickup
+		xscale 0.7;yscale 0.8;
+		inventory.pickupmessage "Picked up a 5.55mm UNATCO round.";
+		hdpickup.refid HDLD_SEVNMIL;
+		hdpickup.nicename "5.55mm UNATCO Round";
+		hdpickup.bulk ENC_776;
+		inventory.icon "RBRSA3A7";
+	}
+	override void GetItemsThatUseThis(){
+		itemsthatusethis.push("HDFAMASF1_PB");
+		itemsthatusethis.push("HDStoner63_PB");
+		//itemsthatusethis.push("");
+	}
+	states{
+	spawn:
+		RBRS A -1;
+	}
+}

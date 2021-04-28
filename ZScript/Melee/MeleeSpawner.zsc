@@ -1,0 +1,61 @@
+
+
+
+class PB_Z_MeleeStuff_Spawner : EventHandler {
+	int toSpawn_MeleeStuff;
+	double spawnRate;
+	vector3 spawnPos;
+
+	override void WorldLoaded(WorldEvent e) {
+		if(e.IsSaveGame == true || e.IsReopen == true) { return; }
+	}
+
+	override void PlayerEntered(PlayerEvent e) {
+		PlayerInfo player = players[e.PlayerNumber];
+	}
+
+	//Set up spawns
+	override void WorldThingSpawned(WorldEvent e) {
+		if(level.maptime > 1) { return; }
+		if(!e.Thing) { return; }
+		if(e.Thing is "Inventory" && Inventory(e.Thing).Owner) { return; }
+		//if(e.Thing.bDROPPED) { return; }
+
+		spawnRate = max(spawnRate, 0.75);
+		spawnPos = e.Thing.pos;
+
+		name toSpawnClass = 'HDFireAxe';
+		if( PB_ThingSpawner.RandomChance(0.345)) { toSpawnClass = 'HDFireAxe'; }
+
+		if(e.Thing.GetClassName() == "HDBP") {
+			 PB_ThingSpawner.SpawnStuff('HDFireAxe',1, spawnPos);
+		}
+
+		//Randomly spawn on ammo boxes
+		else if(e.Thing.GetClassName() == "HDAmBox" || e.Thing.GetClassName() == "HDAmBoxUnarmed") {
+			MaybeSpawnKrautSpaceMagic('HDFireAxe', 0.3 * spawnRate);
+		}
+
+		//Randomly spawn on marine corpses
+		else if(e.Thing.GetClassName() == "DeadRifleman" || e.Thing.GetClassName() == "ReallyDeadRifleman") {
+			MaybeSpawnKrautSpaceMagic('HDFireAxe', 0.22 * spawnRate);
+		}
+	
+		//Randomly spawn on Health & Armor Bonus Replacers
+		else if(e.Thing.GetClassName() == "HelmFrag" || e.Thing.GetClassName() == "BlueFrag") {
+			//Gun
+			MaybeSpawnKrautSpaceMagic('HDFireAxe', 0.086 * spawnRate);
+		}
+		
+	}
+
+	void MaybeSpawnKrautSpaceMagic(name spawnClass, double spawnChance) 
+	{
+		if( PB_ThingSpawner.RandomChance(clamp(spawnChance, 0, 1))) 
+		{
+			 PB_ThingSpawner.SpawnStuff(spawnClass, 1, spawnPos);
+			toSpawn_MeleeStuff--;
+		}
+	}
+		
+}

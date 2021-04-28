@@ -1,0 +1,54 @@
+class HDFusionPistol_Ball:Slowprojectile{
+	default{
+		+extremedeath
+		//damagetype "balefire";
+		activesound "cyber/ballhum";
+		seesound "weapons/plasmaf";
+		deathsound "weapons/bfgx";
+		decal "scorch";
+		gravity 0;
+		height 6;radius 6;
+		speed 2000;
+		scale 1.25;
+		damagefunction(75);
+	}
+	//actor lite;
+	override void postbeginplay(){
+		super.postbeginplay();
+		bool gbg;
+		//lite=spawn("SatanBallLight",pos,ALLOW_REPLACE);lite.target=self;
+		//if(satanrobo(target))satanrobo(target).shields-=40;
+	}
+	states{
+	spawn:
+		ZFPP ABAB 1 bright
+		{
+			A_ChangeVelocity(
+					cos(pitch)*60,0,
+					sin(-pitch)*60+1,CVF_RELATIVE
+				);
+		}
+		loop;
+	death:
+		ZFPP C 1 bright{
+			spawn("HDSmoke",pos,ALLOW_REPLACE);
+			A_PlaySound("weapons/ps20fire2",CHAN_BODY,0.4);
+			damagetype="thermal";
+			//bextremedeath=false;
+			A_Explode(32,8);
+			//if(lite)lite.args[3]=128;
+
+			//hit map geometry
+			if(
+				blockingline||
+				floorz>=pos.z||  
+				ceilingz-height<=pos.z
+			){
+				A_SpawnChunks("HDSmoke",3,2,3);
+				//A_SpawnChunks("HugeWallChunk",50,4,20);
+			}
+		}
+		ZFPP DEFG 1 bright A_FadeOut(0.05);
+		stop;
+	}
+}

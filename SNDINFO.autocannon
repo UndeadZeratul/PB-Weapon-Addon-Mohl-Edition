@@ -1,0 +1,6 @@
+$random weapons/autocannon		{weapons/bronto}
+$random weapons/autocannon2		{weapons/bronto2}
+
+weapons/autocannonping			Sounds/AutoCannon/ACPing.ogg
+weapons/autocannonrevolve		Sounds/AutoCannon/ACRevolve.ogg
+weapons/autocannonload			Sounds/AutoCannon/ACLoad.ogg

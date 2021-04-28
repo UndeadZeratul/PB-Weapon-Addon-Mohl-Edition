@@ -1,0 +1,36 @@
+class PB_HDWeapon_Spawner : EventHandler
+{
+override void CheckReplacement(ReplaceEvent e) {
+	if (!PB_HDWeps_AllowReplacement)
+		return;
+	switch (e.Replacee.GetClassName()) {
+	
+	//Ammo Pickups
+	
+	//Shotgun shells
+		case 'ShellRandom' 				: if (!random(0, 1)) {e.Replacement = "PB_ShellRandom";} 	break;
+		case 'ShellBoxRandom' 			: if (!random(0, 1)) {e.Replacement = "PB_ShellBoxRandom";} break;
+	//Anything with "Ri" is support for Right's weapon add-on
+		case 'RiShellBoxRandom' 		: if (!random(0, 1)) {e.Replacement = "PB_ShellBoxRandom";} break;
+	//aaaaaaaaaaaaaaaaaaaaaaaaa
+		case 'ClipMagPickup' 			: if (!random(0, 1)) {e.Replacement = "PB_NormalMagPickup";} break;
+		case 'RiClipMagPickup' 			: if (!random(0, 1)) {e.Replacement = "PB_NormalMagPickup";} break;
+	//BOX
+		case 'ClipBoxPickup' 			: if (!random(0, 1)) {e.Replacement = "PB_AmmoBoxRep";} break;
+		case 'RiClipBoxPickup' 			: if (!random(0, 1)) {e.Replacement = "PB_AmmoBoxRep";} break;
+	//Cell things
+		case 'CellRandom' 				: if (!random(0, 1)) {e.Replacement = "PB_CellRandom";} break;
+		case 'CellPackRandom' 			: if (!random(0, 1)) {e.Replacement = "PB_CellPackRandom";} break;
+	//Weapon Pickups
+		case 'Chainsaw' 				: if (!random(0, 1)) e.Replacement = "PB_HDChainsawRep"; break;
+		case 'ShotgunReplaces' 			: if (!random(0, 1)) {e.Replacement = "PB_HDHunterRep";} break;
+		case 'SSGReplaces' 				: if (!random(0, 1)) {e.Replacement = "PB_HDSlayerRep";} break;
+		case 'ChaingunReplaces' 		: if (!random(0, 1)) {e.Replacement = "PB_VulcanetteRep";} break;
+		case 'PlasmaReplaces' 			: if (!random(0, 1)) {e.Replacement = "PB_PlasmaRep";} break;
+	//HexaDoken's Bossmerg bolt-action shotgun support
+		case 'BossbergShotgunReplaces' 	: if (!random(0, 1)) {e.Replacement = "PB_HDHunterRep";} break;
+		case 'BossbergSSGReplacer' 		: if (!random(0, 1)) {e.Replacement = "PB_HDSlayerRep";} break;
+		}
+	e.IsFinal = false;
+	}
+}

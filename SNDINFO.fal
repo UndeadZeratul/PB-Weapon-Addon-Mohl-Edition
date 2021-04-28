@@ -1,0 +1,7 @@
+$random weapons/FALshot {weapons/bigrifle}
+
+weapons/FALboltback	Sounds/5mmGuns/A180/BoltBack.ogg
+weapons/FALboltfwd	Sounds/5mmGuns/A180/BoltFwd.ogg
+weapons/FALdrumfin	Sounds/5mmGuns/A180/MagIn.ogg
+weapons/FALdrumin	Sounds/5mmGuns/A180/MagIn.ogg
+weapons/FALdrumout	Sounds/5mmGuns/A180/MagOut.ogg

@@ -1,0 +1,160 @@
+version "4.4"
+
+//Main
+
+//Melee Weapons
+#include "ZScript/Melee/HDGrossHack.zsc"
+#include "ZScript/Melee/HDFireAxe.zsc"
+#include "ZScript/Melee/HDSledge.zsc"
+#include "ZScript/Melee/HDKnife.zsc"
+#include "ZScript/Melee/HDKharon.zsc"
+#include "ZScript/Melee/RiotShield.zsc" //fuck this, its bad
+//#include "ZScript/Melee/MeleeSpawner.zsc"
+
+//Chives Herstal SP-50 Automag
+#include "ZScript/50AMPistol/50AMAmmo.zsc"
+#include "ZScript/50AMPistol/MegaClass.zsc"
+//#include "ZScript/50AMPistol/50AMSpawner.zsc"
+
+//Arkoudi M165/5c Sub-Machinegun
+#include "ZScript/5mmGuns/5mmAmmo.zsc"
+#include "ZScript/5mmGuns/A180/A180Magazine.zsc"
+#include "ZScript/5mmGuns/A180/A180.zsc"
+//#include "ZScript/5mmGuns/5mmSpawner.zsc"
+
+//Arkoudi M165/5c Sub-Machinegun
+#include "ZScript/5mmGuns/Ruger1022/Ruger1022.zsc"
+
+//Cobray Shit Show
+#include "ZScript/CobrayShitShow/CobrayTermi.zsc"
+#include "ZScript/CobrayShitShow/CobraySweep.zsc"
+//#include "ZScript/CobrayShitShow/CobraySpawner.zsc"
+
+//Raycob RAC-13/9 Machine Pistol
+#include "ZScript/MAC11/MAC11.zsc"
+//#include "ZScript/MAC11/MAC11Spawner.zsc"
+
+//Heckler & Mok G26A1 Automatic Rifle
+#include "ZScript/G11/G11.zsc"
+#include "ZScript/G11/G11_Alt.zsc"
+#include "ZScript/G11/G11Ammo.zsc"
+//#include "ZScript/G11/G11Spawner.zsc"
+
+//Chives Herstal MG77 "Defender" Light Support Weapon
+#include "ZScript/FAL/FALRifleOld.zsc"
+#include "ZScript/FAL/FALAmmo.zsc"
+
+//
+//#include "ZScript/NitroExpress/NitroRifle.zsc"
+//#include "ZScript/AutoCannon/AutoCannonAmmo.zsc"
+
+//PS-20
+#include "ZScript/PS20/PS20Wep.zsc"
+
+//Arkoudi M5/12 Shotgun Pistol
+#include "ZScript/Uragan 5/Uragan5Wep.zsc"
+
+//Arnell M35A1 High Power Carbine
+#include "ZScript/355 Carbine/Colt355.zsc"
+
+//LEVER GAT
+#include "ZScript/LeverGun/Levergat.zsc"
+
+//Ma Deuce
+#include "ZScript/M2HB/M2HBGun.zsc"
+#include "ZScript/M2HB/M2HBBox.zsc"
+
+
+//Disposable big boys
+#include "ZScript/AT-4/AT4.zsc"
+#include "ZScript/AT-4/CGM25.zsc"
+#include "ZScript/AT-4/RPO.zsc"
+//Big MG
+#include "ZScript/Microgun/BigBoy.zsc"
+#include "ZScript/Microgun/BeltBox.zsc"
+//#include "ZScript/Microgun/WeirdMG.zsc"
+
+//Nades?
+#include "ZScript/LTLGrenade/ConcNade_Projectile.zsc"
+#include "ZScript/LTLGrenade/GasGrenade_Projectile.zsc"
+#include "ZScript/LTLGrenade/GasWeapon.zsc"
+
+//Flamer
+//#include "ZScript/Flamer/HDFlamer.zsc"
+//#include "ZScript/Flamer/HDMancCannon.zsc" it can crash the game, so I am temporarily cutting this weapon out.
+//#include "ZScript/Flamer/HDGasoline.zsc"
+
+//Fire Extinguisher
+#include "ZScript/FireExtinguisher/AntiFlameDevice.zsc"
+
+//VLK TBV-12 Demolition Rifle
+#include "ZScript/ShAK-12/ShAK12_Ammo.zsc"
+
+//Berlinghoff XM35 "Devincenzia"
+#include "ZScript/Cobra Assault Cannon/CobraMag.zsc"
+#include "ZScript/Cobra Assault Cannon/CobraCannon.zsc"
+
+#include "ZScript/Kelenken/Kelenken.zsc"
+#include "ZScript/Kelenken/KelenkenBox.zsc"
+
+//KS23
+////////////////////////#include "ZScript/KS23/LeverGat.zsc"
+
+//Heckler & Mok VP-91 Fusion Pistol (this doensn't work yet)
+//#include "ZScript/FusionPistol/FusionPistolWep.zsc"
+//#include "ZScript/FusionPistol/FusionProj.zsc"
+
+//Mouletta DD-T1 Hunting Rifle (DELAYING UNTIL I FIX THE NOT FIRING THING)
+//#include "ZScript/NitroExpress/NitroRifle.zsc"
+//#include "ZScript/NitroExpress/NitroAmmo.zsc"
+
+//Replacers
+#include "ZScript/Misc/ItemReplacer.zsc"
+#include "ZScript/Misc/ItemSpawns.zsc"
+//#include "ZScript/Misc/MysteryBox.zsc"
+
+//Thingy
+
+class PB_ThingSpawner {
+	//Return true for random below percentage
+	static play bool RandomChance(double percentage = 0.5) {
+		percentage = clamp(percentage, 0.0, 1.0);
+		if(frandom(0.0, 1.0) <= percentage) { return true; }
+		return false;
+	}
+
+	//Generic function for spawning some bundle of things, like loose rounds
+	static play void SpawnStuff(name toSpawn, int count, vector3 pos, bool randomvel = true) {
+		if(count <= 0) { return; }
+		for(int i = 1; i <= count; i++) {
+			let spawneditem = Actor.Spawn(toSpawn, (pos.x, pos.y, pos.z + 5));
+			if(!spawneditem || randomvel == false) { return; }
+			spawneditem.vel.x += frandom[spawnstuff](-2,2);
+			spawneditem.vel.y += frandom[spawnstuff](-2,2);
+			spawneditem.vel.z += frandom[spawnstuff](1,2);
+		}
+	}
+}
+
+class PB_HDAddon_CustomGrenadeGiver : EventHandler
+{
+	override void PlayerEntered(PlayerEvent e)
+	{
+		//players[e.PlayerNumber].mo.A_GiveInventory("HDGasGrenadeThrower", 1);
+		//players[e.PlayerNumber].mo.A_GiveInventory("HD_another_grenade", 1);
+		//players[e.PlayerNumber].mo.A_GiveInventory("HDWilliePeteThrower", 1);
+		//players[e.PlayerNumber].mo.A_GiveInventory("HDConcGrenadeThrower", 1);
+	}
+}
+
+
+
+
+/* broken dreams
+class PB_PS451_Handler : EventHandler
+{
+	override void PlayerEntered(PlayerEvent e)
+	{
+		players[e.PlayerNumber].mo.A_GiveInventory ("PB_PS20_IncapShooter",1);
+	}
+}
