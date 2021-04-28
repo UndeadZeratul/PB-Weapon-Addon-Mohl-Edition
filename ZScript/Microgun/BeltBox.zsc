@@ -23,6 +23,12 @@ class HD_PB_7mmBeltBox:HDMagAmmo{
 		return magsprite,"RBRSA3A7","SevenMilAmmo",1.7;
 	}
 	
+	
+		override void postbeginplay(){
+		super.postbeginplay();
+		spawn("PB_776BeltLinkPile",pos,ALLOW_REPLACE);
+	}
+	
 	override void DrawRoundCount(HDStatusBar sb,HDPlayerPawn hpl,name roundsprite,double scl,int offx,int offy){
 		bool helptext=cvar.getcvar("hd_helptext",hpl.player).getbool();
 		offx+=40;
@@ -55,7 +61,7 @@ class HD_PB_7mmBeltBox:HDMagAmmo{
 	}
 	
 	override void GetItemsThatUseThis(){
-		itemsthatusethis.push("HD_M60Pig");
+		itemsthatusethis.push("HDMicrogun");
 	}
 	
 			override bool Insert(){

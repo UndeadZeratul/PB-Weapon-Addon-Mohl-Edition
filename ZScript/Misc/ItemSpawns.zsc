@@ -89,7 +89,38 @@ class PB_KelenkenBox_Ex:HDUPK{
 	}
 }
 
+class PB_7mmBox_Ex:HDUPK{
+	default{
+		//$Category "Ammo/Hideous Destructor/"
+		//$Title "gross hack 5"
+		//$Sprite "TNT1A0"
 
+		hdupk.amount 1;
+		hdupk.pickupsound "weapons/pocket";
+		hdupk.pickupmessage "Picked up a 7.76mm MG belt Box.";
+		hdupk.pickuptype "HD_PB_7mmBeltBox";
+		scale 0.7;
+	}
+	states{
+	spawn:
+		MBX1 A -1;
+	}
+}
+
+class PB_MaDeuceBox_Ex:HDUPK{
+	default{
+
+		hdupk.amount 1;
+		hdupk.pickupsound "weapons/pocket";
+		hdupk.pickupmessage "Picked up a .50 OMG belt box.";
+		hdupk.pickuptype "HD_PB_50OMGBeltBox";
+		scale 0.7;
+	}
+	states{
+	spawn:
+		M2AB B -1;
+	}
+}
 
 class PB_HDAutoMagSpawn_SA:PB_50AMMag_Ex{
 	override void postbeginplay(){
@@ -163,6 +194,20 @@ class PB_KelenkenSpawn:PB_KelenkenBox_Ex{
 	override void postbeginplay(){
 		super.postbeginplay();
 		spawn("HD_ATCKelenken",pos,ALLOW_REPLACE);
+	}
+}
+
+class PB_MaDeuceSpawn:PB_MaDeuceBox_Ex{
+	override void postbeginplay(){
+		super.postbeginplay();
+		spawn("HD_M2HB",pos,ALLOW_REPLACE);
+	}
+}
+
+class PB_SmartgunSpawn:PB_7mmBox_Ex{
+	override void postbeginplay(){
+		super.postbeginplay();
+		spawn("HDMicrogun",pos,ALLOW_REPLACE);
 	}
 }
 
@@ -370,7 +415,8 @@ class PB_PlasmaRep:HDInvRandomSpawner{
 class PB_BFG9000Rep:HDInvRandomSpawner{
 	default{
 	+weaponspawn
-	dropitem "PB_KelenkenSpawn", 256, 5;
 	dropitem "PB_KelenkenSpawn", 256, 4;
+	dropitem "PB_SmartgunSpawn", 256, 3;
+	dropitem "PB_MaDeuceSpawn", 256, 2;
 	}
 }

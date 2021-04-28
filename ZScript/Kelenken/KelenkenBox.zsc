@@ -24,6 +24,10 @@ class HD_PB_35mmBeltBox:HDMagAmmo{
 		return magsprite,"BROCA0","BrontornisRound",1.7;
 	}
 	
+			override void postbeginplay(){
+		super.postbeginplay();
+		spawn("PB_35mmBeltLinkPile",pos,ALLOW_REPLACE);
+	}
 	override void DrawRoundCount(HDStatusBar sb,HDPlayerPawn hpl,name roundsprite,double scl,int offx,int offy){
 		bool helptext=cvar.getcvar("hd_helptext",hpl.player).getbool();
 		offx+=40;

@@ -54,6 +54,11 @@ class HD_PB_50OMGBeltBox:HDMagAmmo{
 		
 	}
 	
+	override void postbeginplay(){
+		super.postbeginplay();
+		spawn("PB_12MMBeltLinkPile",pos,ALLOW_REPLACE);
+	}
+	
 	override void GetItemsThatUseThis(){
 		itemsthatusethis.push("HD_M2HB");
 	}
@@ -126,17 +131,16 @@ class HD_12MMBeltLink:HDRoundAmmo{
 		+rollsprite +rollcenter
 		height 16;radius 8;
 		tag "12mm belt link";
-		hdpickup.refid HDLD_776BELTLINK;
-		hdpickup.bulk ENC_776BELTLINK;
+		hdpickup.refid HDLD_12MMBELTLINK;
+		hdpickup.bulk ENC_12MMBELTLINK;
 		xscale 0.7;yscale 0.7;
-		inventory.pickupmessage "Picked up some belt links for 12 Gauge/.50 OMG.";
+		inventory.pickupmessage "Picked up some belt links for .50 OMG.";
 	}
 	override void SplitPickup(){
-		SplitPickupBoxableRound(30,300,"PB_12MMBeltLinkPile","SBKYA0","SBKZA0");
+		SplitPickupBoxableRound(10,50,"PB_12MMBeltLinkPile","SBKYA0","SBKZA0");
 	}
 	override void GetItemsThatUseThis(){
-		itemsthatusethis.push("PB_HDM60Pig");
-		itemsthatusethis.push("HDMicrogun");
+		itemsthatusethis.push("HD_M2HB");
 	}
 	states{
 	spawn:
@@ -153,7 +157,7 @@ class PB_12MMBeltLinkPile:HDUPK{
 		//$Sprite "BLT0B0"
 
 		scale 0.7;
-		hdupk.amount 300;
+		hdupk.amount 50;
 		hdupk.pickupsound "weapons/pocket";
 		hdupk.pickupmessage "Picked up a pile of .50OMG belt links.";
 		hdupk.pickuptype "HD_12MMBeltLink";

@@ -39,7 +39,7 @@ class HDCombatKnife:HD_PB_UnarmedWeapon{
 		weapon.bobrangex 0.1;
 		weapon.bobrangey 0.5;
 		weapon.slotnumber 1;
-		weapon.slotpriority 0.95;
+		weapon.slotpriority 2.1;
 		scale 0.6;
 		//+FLATSPRITE
 		DamageFunction (random(100,110));
@@ -189,7 +189,7 @@ class HDCombatKnife:HD_PB_UnarmedWeapon{
 	action void HDStab(int dmg){
 		flinetracedata punchline;
 		bool punchy=linetrace(
-			angle,48,pitch,
+			angle,54,pitch,
 			TRF_NOSKY,
 			offsetz:height-12,
 			data:punchline
@@ -197,7 +197,7 @@ class HDCombatKnife:HD_PB_UnarmedWeapon{
 		if(!punchy)return;
 
 		//actual puff effect if the shot connects
-		LineAttack(angle,48,pitch,punchline.hitline?(countinv("PowerStrength")?random(50,120):random(5,15)):0,"none",
+		LineAttack(angle,54,pitch,punchline.hitline?(countinv("PowerStrength")?random(50,120):random(5,15)):0,"none",
 			countinv("PowerStrength")?"BulletPuffMedium":"BulletPuffSmall",
 			flags:LAF_NORANDOMPUFFZ|LAF_OVERRIDEZ,
 			offsetz:height-12
