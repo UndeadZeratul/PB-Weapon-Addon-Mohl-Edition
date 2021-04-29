@@ -360,7 +360,7 @@ class TerminatorRandom:IdleDummy{
 			lll.special=special;
 			lll.vel=vel;
 			for(int i=0;i<5;i++)lll.args[i]=args[i];
-			if(!random(0,2))lll.weaponstatus[0]|=TRMI_ALTPIN;
+			if(random(0,8)==0)lll.weaponstatus[0]|=TRMI_ALTPIN	;
 		}stop;
 	}
 }
