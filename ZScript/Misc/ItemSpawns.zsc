@@ -169,9 +169,10 @@ class PB_G11Spawn_Scoped:PB_G11Mag_Ex{
 class PB_TerminatorSpawn:ShellBoxPickup{
 	override void postbeginplay(){
 		super.postbeginplay();
-		spawn("HDTerminatorSG",pos,ALLOW_REPLACE);
+		spawn("TerminatorRandom",pos,ALLOW_REPLACE);
 	}
 }
+
 
 class PB_MAC11Spawn:PB_9mmMag_Ex{
 	override void postbeginplay(){
@@ -309,7 +310,6 @@ class PB_ShellRandom:HDInvRandomSpawner{
 		dropitem "HDFragGrenadePickup",256,2;
 		dropitem "ShellPickup",256,8;
 		dropitem "HDFumbledShell",256,4;
-		dropitem "DecoPusher",200,4;
 		dropitem "BFGNecroShard",200,1;
 		dropitem "HDAB",200,1;
 		dropitem "DoorBuster",256,1;
@@ -375,7 +375,7 @@ class PB_HDHunterRep:HDInvRandomSpawner{
 	dropitem "HD_AutoMag", 256, 6;
 	dropitem "HD_AutoMagFA", 256, 4;
 	dropitem "HD_Uragan5Spawn", 256, 2;
-	dropitem "HDLeverGun_355", 256, 5;
+	dropitem "HDLeverGun", 256, 5;
 	}
 }
 
@@ -386,7 +386,7 @@ class PB_HDSlayerRep:HDInvRandomSpawner{
 	dropitem "PB_HDAutoMagSpawn_FA", 256, 5;
 	dropitem "HDStreetSweeper", 256, 2;
 	dropitem "HD_Uragan5Spawn", 256, 3;
-	dropitem "HDLeverGun_355", 256, 4;
+	dropitem "HDLeverGun", 256, 4;
 	}
 }
 

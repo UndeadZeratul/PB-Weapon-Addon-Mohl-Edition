@@ -17,7 +17,7 @@ class HDG11Mag:HDMagAmmo{
 		hdpickup.refid HDLD_G11MAG;
 	}
 	override string,string,name,double getmagsprite(int thismagamt){
-		string magsprite=(thismagamt>0)?"G11NORM":"G11EMPTY";
+		string magsprite=(thismagamt>0)?"G11MD0":"G11MC0";
 		return magsprite,"RBRSBRN","FourMilAmmo",2.;
 	}
 	
