@@ -1,5 +1,4 @@
 const HDLD_35MM_BELTBOX="hwb";
-const HDLD_35MMBELTLINK="hwl";
 
 const ENC_35MMBELTBOX_EMPTY=15;
 const ENC_35MMBELTBOX_LOADED=9;
@@ -24,10 +23,6 @@ class HD_PB_35mmBeltBox:HDMagAmmo{
 		return magsprite,"BROCA0","BrontornisRound",1.7;
 	}
 	
-			override void postbeginplay(){
-		super.postbeginplay();
-		spawn("PB_35mmBeltLinkPile",pos,ALLOW_REPLACE);
-	}
 	override void DrawRoundCount(HDStatusBar sb,HDPlayerPawn hpl,name roundsprite,double scl,int offx,int offy){
 		bool helptext=cvar.getcvar("hd_helptext",hpl.player).getbool();
 		offx+=40;
@@ -40,21 +35,6 @@ class HD_PB_35mmBeltBox:HDMagAmmo{
 		sb.drawimage(roundsprite,(offx,offy),
 			sb.DI_SCREEN_CENTER|sb.DI_ITEM_RIGHT_TOP,
 			scale:(scl,scl)
-		);
-		
-		sb.drawstring(
-			sb.pSmallFont,sb.FormatNumber(hpl.countinv("HD_35mmBeltLink")),
-			(offx+9,offy+9),sb.DI_SCREEN_CENTER|sb.DI_TEXT_ALIGN_LEFT,
-			font.CR_BROWN
-		);
-		sb.drawimage("HW0LA0",(offx+7,offy+9),
-			sb.DI_SCREEN_CENTER|sb.DI_ITEM_RIGHT_TOP,
-			scale:(scl,scl)
-		);
-		
-		sb.drawstrings(
-			sb.pSmallFont,string.format("Drop excess belt links with\n the inventory manager."),
-			(offx-9,offy+20),sb.DI_SCREEN_CENTER|sb.DI_TEXT_ALIGN_LEFT
 		);
 		
 	}
@@ -70,10 +50,8 @@ class HD_PB_35mmBeltBox:HDMagAmmo{
 			mags.size()<1
 			||mags[mags.size()-1]>=maxperunit
 			||!owner.countinv(roundtype)
-			||!owner.countinv("HD_35mmBeltLink")
 		)return false;
 		owner.A_TakeInventory(roundtype,1,TIF_NOTAKEINFINITE);
-		owner.A_TakeInventory("HD_35mmBeltLink",1,TIF_NOTAKEINFINITE);
 		owner.A_PlaySound("weapons/rifleclick2",CHAN_WEAPON);
 		mags[mags.size()-1]++;
 		
@@ -94,12 +72,6 @@ class HD_PB_35mmBeltBox:HDMagAmmo{
 		{HDF.Give(owner,roundtype,1);}
 		else 
 		{HDPickup.DropItem(owner,roundtype,1);}
-		//Ammo Type 2
-		if(
-		HDPickup.MaxGive(owner,"HD_35mmBeltLink",ENC_35MMBELTLINK)>=1)
-		{HDF.Give(owner,"HD_35mmBeltLink",1);}
-		else 
-		{HDPickup.DropItem(owner,"HD_35mmBeltLink",1);}
 		
 		owner.A_StartSound("weapons/rifleclick2",8,CHANF_OVERLAP);
 		mags[mags.size()-1]--;
@@ -120,54 +92,7 @@ class HD_PB_35mmBeltBox:HDMagAmmo{
 		}stop;
 	}
 }
-
-const ENC_35MMBELTLINK=0.01;
-
-class HD_35mmBeltLink : HDRoundAmmo{
-	default{
-		+inventory.ignoreskill +forcexybillboard +cannotpush
-		+hdpickup.multipickup
-		+hdpickup.cheatnogive
-		+rollsprite +rollcenter
-		height 16;radius 8;
-		tag "35mm Belt Link";
-		hdpickup.refid HDLD_35MMBELTLINK;
-		hdpickup.bulk ENC_35MMBELTLINK;
-		scale 0.3;
-		inventory.pickupmessage "Picked up some belt links for 35mm Bolts.";
-	}
-	override void SplitPickup(){
-		SplitPickupBoxableRound(7,70,"PB_35mmBeltLinkPile","HW1LA0","HW0LA0");
-	}
-	override void GetItemsThatUseThis(){
-		itemsthatusethis.push("HD_ATCPatagornis");
-	}
-	states{
-	spawn:
-		HW0L A -1;
-		HW1L A -1;
-		stop;
-	}
-}
-
-class PB_35mmBeltLinkPile:HDUPK{
-	default{
-		//$Category "Ammo/Hideous Destructor/"
-		//$Title "Pile of 7.76 Belt Links"
-		//$Sprite "BLT0B0"
-
-		scale 0.3;
-		hdupk.amount 70;
-		hdupk.pickupsound "weapons/pocket";
-		hdupk.pickupmessage "Picked up a pile of 35mm belt links.";
-		hdupk.pickuptype "HD_35mmBeltLink";
-	}
-	states{
-	spawn:
-		HW0L B -1;
-	}
-}
-
+//HW0L
 class HD35MMFlyingBeltLink:HDSpent50AM{ //why does it inherit from the .50 AM casings? i dunno im lazy
 	override void postbeginplay(){
 		HDDebris.postbeginplay();
@@ -177,18 +102,14 @@ class HD35MMFlyingBeltLink:HDSpent50AM{ //why does it inherit from the .50 AM ca
 		bouncefactor 0.1;
 		bouncesound "there is no sound";
 	}
-	states{
-		spawn:
-		HW0L A 0 nodelay{
-			A_SetRoll(roll+frandom(0,180));
-		}
-		HW0L A 1{
+states{
+	spawn:
+		HW0L A 2 nodelay{
 			A_SetRoll(roll+45,SPF_INTERPOLATE);
-		}wait;
+
+		}loop;
 	death:
-		TNT1 A 1{
-			actor a=spawn("HD_35mmBeltLink",self.pos,ALLOW_REPLACE);
-			a.roll=self.roll;a.vel=self.vel;
-		}stop;
+		HW0L # 1 A_FadeOut(0.01);
+		loop;
 	}
 }

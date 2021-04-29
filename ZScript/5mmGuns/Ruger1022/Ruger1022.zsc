@@ -238,7 +238,7 @@ class HD_Ruger1022:HDWeapon{
 	unloadchamber:
 		R10G G 2;
 		#### H 2 offset(2,34) A_JumpIf(invoker.weaponstatus[RG12S_CHAMBER]<1,"nope");
-		#### I 2 offset(5,40) A_StartSound("weapons/smg/355/cock",CHAN_6,0,0.5);
+		#### I 2 offset(5,40) A_StartSound("weapons/ruger1022/cock",CHAN_6,0,0.5);
 		#### J 3 offset(9,47){
 			class<actor>which=invoker.weaponstatus[RG12S_CHAMBER]>1?"HD5MM_Ammo":"HDSpent9mm";
 			invoker.weaponstatus[RG12S_CHAMBER]=0;
@@ -261,7 +261,7 @@ class HD_Ruger1022:HDWeapon{
 			if(countinv("HD5MM_Ammo")){
 				A_TakeInventory("HD5MM_Ammo",1,TIF_NOTAKEINFINITE);
 				invoker.weaponstatus[RG12S_CHAMBER]=2;
-				A_StartSound("weapons/smg/355/fwd",CHAN_WEAPON);
+				A_StartSound("weapons/ruger1022/fwd",CHAN_WEAPON);
 			}
 		}
 		#### A 7 offset(5,37);
@@ -347,7 +347,7 @@ class HD_Ruger1022:HDWeapon{
 	chamber:
 		R10G A 0;
 		R10G DGH 2;
-		R10G I 3 A_StartSound("weapons/smg/355/cock",CHAN_WEAPON);
+		R10G I 3 A_StartSound("weapons/ruger1022/cock",CHAN_WEAPON);
 		#### J 4 offset(33,50){
 			invoker.weaponstatus[RG12S_MAG]--;
 			invoker.weaponstatus[RG12S_CHAMBER]=2;

@@ -210,7 +210,7 @@ class HD_M2HB:HDWeapon{
 					vel.x,vel.y,vel.z,
 					0,SXF_ABSOLUTEMOMENTUM|SXF_NOCHECKPOSITION|SXF_TRANSFERPITCH
 				);
-				A_SpawnItemEx("HDFlyingBeltLink_12MM",
+				A_SpawnItemEx("HDFlyingBeltLink",
 					cos(pitch)*10,0,height-10-sin(pitch)*10,
 					vel.x,vel.y,vel.z,
 					0,SXF_ABSOLUTEMOMENTUM|SXF_NOCHECKPOSITION|SXF_TRANSFERPITCH
@@ -278,11 +278,11 @@ class HD_M2HB:HDWeapon{
 				vel.x,vel.y,vel.z,
 				0,SXF_ABSOLUTEMOMENTUM|SXF_NOCHECKPOSITION|SXF_TRANSFERPITCH
 			);
-			A_SpawnItemEx("HDFlyingBeltLink_12MM",
-					cos(pitch)*10,0,height-10-sin(pitch)*10,
-					vel.x,vel.y,vel.z,
-					0,SXF_ABSOLUTEMOMENTUM|SXF_NOCHECKPOSITION|SXF_TRANSFERPITCH
-				);
+			A_SpawnItemEx("HDFlyingBeltLink",
+				cos(pitch)*10,0,height-10-sin(pitch)*10,
+				vel.x,vel.y,vel.z,
+				0,SXF_ABSOLUTEMOMENTUM|SXF_NOCHECKPOSITION|SXF_TRANSFERPITCH
+			);
 		}
 		#### EFK 2;
 		#### A 4; //offset(2,36); //A_StartSound("weapons/devincenzia/fwd",CHAN_6,0,0.5);
@@ -399,7 +399,7 @@ class HD_M2HB:HDWeapon{
 					vel.x,vel.y,vel.z,
 					0,SXF_ABSOLUTEMOMENTUM|SXF_NOCHECKPOSITION|SXF_TRANSFERPITCH
 				);
-				A_SpawnItemEx("HDFlyingBeltLink_12MM",
+				A_SpawnItemEx("HDFlyingBeltLink",
 					cos(pitch)*10,0,height-10-sin(pitch)*10,
 					vel.x,vel.y,vel.z,
 					0,SXF_ABSOLUTEMOMENTUM|SXF_NOCHECKPOSITION|SXF_TRANSFERPITCH

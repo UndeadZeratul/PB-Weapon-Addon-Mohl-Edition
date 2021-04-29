@@ -1,4 +1,5 @@
 const HDLD_776_BELTBOX="7bx";
+const HDLD_776BELTLINK="7lk";
 
 const ENC_776BELTBOX_EMPTY=10;
 
@@ -38,6 +39,21 @@ class HD_PB_7mmBeltBox:HDMagAmmo{
 			scale:(scl,scl)
 		);
 		
+		sb.drawstring(
+			sb.pSmallFont,sb.FormatNumber(hpl.countinv("HD_776BeltLink")),
+			(offx+9,offy+9),sb.DI_SCREEN_CENTER|sb.DI_TEXT_ALIGN_LEFT,
+			font.CR_BROWN
+		);
+		sb.drawimage("SBKYA0",(offx+7,offy+9),
+			sb.DI_SCREEN_CENTER|sb.DI_ITEM_RIGHT_TOP,
+			scale:(scl,scl)
+		);
+		
+		sb.drawstrings(
+			sb.pSmallFont,string.format("Drop excess belt links with\n the inventory manager."),
+			(offx-9,offy+20),sb.DI_SCREEN_CENTER|sb.DI_TEXT_ALIGN_LEFT
+		);
+		
 	}
 	
 	override void GetItemsThatUseThis(){
@@ -51,8 +67,10 @@ class HD_PB_7mmBeltBox:HDMagAmmo{
 			mags.size()<1
 			||mags[mags.size()-1]>=maxperunit
 			||!owner.countinv(roundtype)
+			||!owner.countinv("HD_776BeltLink")
 		)return false;
 		owner.A_TakeInventory(roundtype,1,TIF_NOTAKEINFINITE);
+		owner.A_TakeInventory("HD_776BeltLink",1,TIF_NOTAKEINFINITE);
 		owner.A_PlaySound("weapons/rifleclick2",CHAN_WEAPON);
 		mags[mags.size()-1]++;
 		
@@ -73,6 +91,15 @@ class HD_PB_7mmBeltBox:HDMagAmmo{
 		{HDF.Give(owner,roundtype,1);}
 		else 
 		{HDPickup.DropItem(owner,roundtype,1);}
+		//Ammo Type 2
+		if(
+		HDPickup.MaxGive(owner,"HD_776BeltLink",ENC_776BELTLINK)>=1)
+		{HDF.Give(owner,"HD_776BeltLink",1);}
+		else 
+		{HDPickup.DropItem(owner,"HD_776BeltLink",1);}
+		
+		owner.A_StartSound("weapons/rifleclick2",8,CHANF_OVERLAP);
+		mags[mags.size()-1]--;
 		
 		extracttime=2;
 		
@@ -90,7 +117,56 @@ class HD_PB_7mmBeltBox:HDMagAmmo{
 		}stop;
 	}
 }
-	class HDFlyingBeltLink:HDSpent50AM{ //why does it inherit from the .50 AM casings? i dunno im lazy
+
+const ENC_776BELTLINK=0.005;
+
+class HD_776BeltLink:HDRoundAmmo{
+	default{
+		+inventory.ignoreskill +forcexybillboard +cannotpush
+		+hdpickup.multipickup
+		+hdpickup.cheatnogive
+		+rollsprite +rollcenter
+		height 16;radius 8;
+		tag "7.76mm belt link";
+		hdpickup.refid HDLD_776BELTLINK;
+		hdpickup.bulk ENC_776BELTLINK;
+		xscale 0.7;yscale 0.7;
+		inventory.pickupmessage "Picked up some belt links for 7.76mm.";
+	}
+	override void SplitPickup(){
+		SplitPickupBoxableRound(30,300,"PB_776BeltLinkPile","SBKYA0","SBKZA0");
+	}
+	override void GetItemsThatUseThis(){
+		itemsthatusethis.push("PB_HDM60Pig");
+		itemsthatusethis.push("HDMicrogun");
+	}
+	states{
+	spawn:
+		SBKZ A -1;
+		SBKY A -1;
+		stop;
+	}
+}
+
+class PB_776BeltLinkPile:HDUPK{
+	default{
+		//$Category "Ammo/Hideous Destructor/"
+		//$Title "Pile of 7.76 Belt Links"
+		//$Sprite "BLT0B0"
+
+		scale 0.7;
+		hdupk.amount 300;
+		hdupk.pickupsound "weapons/pocket";
+		hdupk.pickupmessage "Picked up a pile of 7.76mm belt links.";
+		hdupk.pickuptype "HD_776BeltLink";
+	}
+	states{
+	spawn:
+		SBKZ B -1;
+	}
+}
+
+class HDFlyingBeltLink:HDSpent50AM{ //why does it inherit from the .50 AM casings? i dunno im lazy
 	override void postbeginplay(){
 		HDDebris.postbeginplay();
 	}
@@ -99,14 +175,18 @@ class HD_PB_7mmBeltBox:HDMagAmmo{
 		bouncefactor 0.1;
 		bouncesound "there is no sound";
 	}
-states{
-	spawn:
-		SBKZ A 2 nodelay{
+	states{
+		spawn:
+		SBKZ A 0 nodelay{
+			A_SetRoll(roll+frandom(0,180));
+		}
+		SBKZ A 1{
 			A_SetRoll(roll+45,SPF_INTERPOLATE);
-
-		}loop;
+		}wait;
 	death:
-		SBKZ # 1 A_FadeOut(0.01);
-		loop;
+		TNT1 A 1{
+			actor a=spawn("HD_776BeltLink",self.pos,ALLOW_REPLACE);
+			a.roll=self.roll;a.vel=self.vel;
+		}stop;
 	}
 }
