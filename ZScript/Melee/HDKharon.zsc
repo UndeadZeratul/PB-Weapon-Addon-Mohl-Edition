@@ -116,7 +116,7 @@ class HDKharon:HD_PB_UnarmedWeapon{
 		//$Sprite "FAXPA0"
 		+WEAPON.MELEEWEAPON +WEAPON.NOALERT +WEAPON.NO_AUTO_SWITCH
 		+hdweapon.fitsinbackpack
-		-hdweapon.dontnull
+		//-hdweapon.dontnull
 		-weapon.cheatnotweapon
 		-nointeraction
 		-inventory.untossable
