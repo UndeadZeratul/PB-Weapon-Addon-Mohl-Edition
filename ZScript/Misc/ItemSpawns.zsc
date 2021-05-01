@@ -270,6 +270,7 @@ class PB_ClipBoxPickup2:HDInvRandomSpawner{
 		dropitem "PB_A180Spawn",256,12;
 		dropitem "HDG11Mag",256,14;
 		dropitem "PB_MAC11Spawn",256,9;
+		dropitem "HDFireExtinguisher",256,4;
 		dropitem "PB_HDAutoMagSpawn_SA",256,3;
 	}
 }
@@ -280,6 +281,7 @@ class PB_NormalMagPickup:HDInvRandomSpawner{
 		dropitem "HD9mMag30",256,22;
 		dropitem "HDM165Mag_Used",256,10;
 		dropitem "HDCombatKnife",256,4;
+		dropitem "HDFireExtinguisher",256,4;
 		dropitem "HD9mMag30",256,2;
 		dropitem "HD355BoxPickup",256,1;
 	}
@@ -294,6 +296,7 @@ class PB_AmmoBoxRep:HDInvRandomSpawner{
 		dropitem "HDAT4_WEP",256,1;
 		dropitem "HDCGM25_WEP",256,1;
 		dropitem "HDRPOA_WEP",256,1;
+		dropitem "HDFireExtinguisher",256,4;
 		dropitem "HDColt9mmMag25", 256, 4;
 		dropitem "HD7mBoxPickup",256,1;
 		dropitem "HD355BoxPickup",256,1;
