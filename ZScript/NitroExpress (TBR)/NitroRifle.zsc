@@ -172,7 +172,7 @@ class HDNitroExpressRifle:HDWeapon{
 		SH2F A 1 bright{
 			A_Light2();
 			HDFlashAlpha(64,false,overlayid());
-			A_PlaySound("weapons/nitrorifle/fire",6);
+			A_StartSound("weapons/nitrorifle/fire",6);
 			A_ZoomRecoil(0.9);
 			invoker.weaponstatus[NITRO_CHAMBER1]=1;
 
@@ -192,7 +192,7 @@ class HDNitroExpressRifle:HDWeapon{
 		SH2F B 1 bright{
 			A_Light2();
 			HDFlashAlpha(64,false,overlayid());
-			A_PlaySound("weapons/nitrorifle/fire",6);
+			A_StartSound("weapons/nitrorifle/fire",6);
 			A_ZoomRecoil(0.9);
 			invoker.weaponstatus[NITRO_CHAMBER2]=1;
 
@@ -216,8 +216,8 @@ class HDNitroExpressRifle:HDWeapon{
 		SH2F C 1 bright{
 			A_Light2();
 			HDFlashAlpha(128);
-			A_PlaySound("weapons/nitrorifle/fire",5);
-			A_PlaySound("weapons/nitrorifle/fire",6);
+			A_StartSound("weapons/nitrorifle/fire",5);
+			A_StartSound("weapons/nitrorifle/fire",6);
 			A_ZoomRecoil(0.7);
 			invoker.weaponstatus[NITRO_CHAMBER1]=1;
 			invoker.weaponstatus[NITRO_CHAMBER2]=1;
@@ -268,7 +268,7 @@ class HDNitroExpressRifle:HDWeapon{
 		#### A 2 offset(0,34) EmptyHand();
 		#### A 1 offset(0,40);
 		#### B 3 offset(0,46);
-		#### B 5 offset(0,47) A_PlaySound("weapons/sshoto",CHAN_AUTO);
+		#### B 5 offset(0,47) A_StartSound("weapons/sshoto",CHAN_AUTO);
 		#### D 4 offset(0,46) A_MuzzleClimb(
 			frandom(0.6,1.2),frandom(0.6,1.2),
 			frandom(0.6,1.2),frandom(0.6,1.2),
@@ -311,7 +311,7 @@ class HDNitroExpressRifle:HDWeapon{
 
 			//play animation to search pockets as appropriate
 			if(invoker.weaponstatus[0]&NITRF_FROMPOCKETS)
-				A_PlaySound("weapons/pocket",CHAN_WEAPON);
+				A_StartSound("weapons/pocket",CHAN_WEAPON);
 				else setweaponstate("reloadnopocket");
 		}
 		#### E 4 offset(2,35);
@@ -345,17 +345,17 @@ class HDNitroExpressRifle:HDWeapon{
 				ssh--;
 			}
 		}
-		NTRG H 4 A_PlaySound("weapons/sshotl",CHAN_WEAPON);
+		NTRG H 4 A_StartSound("weapons/sshotl",CHAN_WEAPON);
 		NTRG B 2 offset(0,46);
 		#### D 1 offset(0,42);
-		#### C 2 offset(0,42) A_PlaySound("weapons/sshotc",CHAN_WEAPON);
+		#### C 2 offset(0,42) A_StartSound("weapons/sshotc",CHAN_WEAPON);
 		#### B 2;
 		goto ready;
 	unloadend:
-		NTRG H 5 A_PlaySound("weapons/sshotl",CHAN_WEAPON);
+		NTRG H 5 A_StartSound("weapons/sshotl",CHAN_WEAPON);
 		NTRG B 2 offset(0,46);
 		#### D 1 offset(0,42);
-		#### C 2 offset(0,42) A_PlaySound("weapons/sshotc",CHAN_WEAPON);
+		#### C 2 offset(0,42) A_StartSound("weapons/sshotc",CHAN_WEAPON);
 		#### B 2;
 		goto ready;
 

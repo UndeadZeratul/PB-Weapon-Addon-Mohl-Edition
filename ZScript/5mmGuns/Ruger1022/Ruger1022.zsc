@@ -222,7 +222,7 @@ class HD_Ruger1022:HDWeapon{
 		R10F A 1 bright{
 			A_Light1();
 			HDFlashAlpha(-16);
-			A_PlaySound("weapons/ruger1022/fire",CHAN_WEAPON);
+			A_StartSound("weapons/ruger1022/fire",CHAN_WEAPON);
 			A_ZoomRecoil(min(0.95,1.-0.05*min(invoker.weaponstatus[RG12S_AUTO],1)));
 
 			//shoot the bullet

@@ -187,7 +187,7 @@ class HD_DevinAutoCannon:HDWeapon{
 				invoker.weaponstatus[ATCN_MAG]--;
 				invoker.weaponstatus[ATCN_CHAMBER]=0;
 				if(invoker.weaponstatus[ATCN_MAG]<=0){
-					A_PlaySound("weapons/FALboltfin",CHAN_WEAPON);
+					A_StartSound("weapons/FALboltfin",CHAN_WEAPON);
 				}
 			}
 			invoker.weaponstatus[ATCN_CHAMBER]=2;
@@ -207,7 +207,7 @@ class HD_DevinAutoCannon:HDWeapon{
 			p.vel+=self.vel;
 
 			A_ZoomRecoil(0.995);
-			A_PlaySound("weapons/FALshot",CHAN_WEAPON, 1.5);
+			A_StartSound("weapons/FALshot",CHAN_WEAPON, volume:1.5);
 			invoker.weaponstatus[ATCN_CHAMBER]=1;
 		}
 		FALF A 1 bright{
@@ -225,7 +225,7 @@ class HD_DevinAutoCannon:HDWeapon{
 		#### # 4 A_JumpIf(invoker.weaponstatus[ATCN_CHAMBER]<1,"nope");
 		#### # 0{
 			invoker.weaponstatus[ATCN_CHAMBER]=0;
-			A_PlaySound("weapons/FALboltfwd",CHAN_WEAPON
+			A_StartSound("weapons/FALboltfwd",CHAN_WEAPON
 			);
 		}
 		#### # 10 offset(0,47);
@@ -235,9 +235,9 @@ class HD_DevinAutoCannon:HDWeapon{
 		FALG A 0 A_JumpIf(invoker.weaponstatus[ATCN_MAG]>-1,2);
 		F4LG A 0;
 		#### # 0 A_JumpIf(invoker.weaponstatus[ATCN_CHAMBER]>0,"nope");
-		#### # 1 offset(0,34) A_PlaySound("weapons/pocket",CHAN_WEAPON);
+		#### # 1 offset(0,34) A_StartSound("weapons/pocket",CHAN_WEAPON);
 		#### # 5 offset(2,36);
-		#### # 2 offset(5,40)A_PlaySound("weapons/FALboltback",CHAN_WEAPON);
+		#### # 2 offset(5,40)A_StartSound("weapons/FALboltback",CHAN_WEAPON);
 		#### # 4 offset(4,39){
 				invoker.weaponstatus[ATCN_CHAMBER]=2;
 			}
@@ -273,10 +273,10 @@ class HD_DevinAutoCannon:HDWeapon{
 		FALG C 1 A_SetCrosshair(21);
 		FALG D 2;
 		FALG E 3;
-		FALG F 4 A_PlaySound("weapons/FALdrumout",CHAN_WEAPON);
+		FALG F 4 A_StartSound("weapons/FALdrumout",CHAN_WEAPON);
 		FALG G 5{
 			A_MuzzleClimb(-frandom(0.4,0.8),frandom(0.4,1.4));
-			A_PlaySound("weapons/smgmagmove",CHAN_WEAPON);
+			A_StartSound("weapons/smgmagmove",CHAN_WEAPON);
 		}
 		FALG H 4 A_MuzzleClimb(-frandom(0.4,0.8),frandom(0.4,1.4));
 		FALG I 3;
@@ -295,7 +295,7 @@ class HD_DevinAutoCannon:HDWeapon{
 				setweaponstate("magout");
 			}else{
 				HDMagAmmo.GiveMag(self,"HD_FALMag",magamt);
-				A_PlaySound("weapons/pocket",CHAN_WEAPON);
+				A_StartSound("weapons/pocket",CHAN_WEAPON);
 				setweaponstate("pocketmag");
 			}
 		}
@@ -318,7 +318,7 @@ class HD_DevinAutoCannon:HDWeapon{
 				setweaponstate("magout");
 			}else{
 				HDMagAmmo.GiveMag(self,"HD_FALMag",magamt);
-				A_PlaySound("weapons/pocket",CHAN_WEAPON);
+				A_StartSound("weapons/pocket",CHAN_WEAPON);
 				setweaponstate("pocketmag");
 			}
 		}
@@ -327,9 +327,9 @@ class HD_DevinAutoCannon:HDWeapon{
 		#### # 0 A_JumpIf(invoker.weaponstatus[ATCN_MAG]>-1,2);
 		#### # 0;
 		#### I 7 offset(2,34) A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4));
-		#### I 7 offset(6,32) A_PlaySound("weapons/pocket",CHAN_WEAPON);
+		#### I 7 offset(6,32) A_StartSound("weapons/pocket",CHAN_WEAPON);
 		#### I 7 offset(5,34) A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4));
-		#### I 7 offset(4,34) A_PlaySound("weapons/pocket",CHAN_WEAPON);
+		#### I 7 offset(4,34) A_StartSound("weapons/pocket",CHAN_WEAPON);
 	magout:
 		#### I 0 A_JumpIf(invoker.weaponstatus[ATCN_MAG]>-1,2);
 		#### I 0;
@@ -339,17 +339,17 @@ class HD_DevinAutoCannon:HDWeapon{
 		}
 
 	loadmag:
-		FALG I 26 offset(2,34) A_PlaySound("weapons/pocket",CHAN_WEAPON);
+		FALG I 26 offset(2,34) A_StartSound("weapons/pocket",CHAN_WEAPON);
 		FALG I 7 offset(4,34) A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4));
 		FALG J 7 offset(3,38) A_MuzzleClimb(frandom(0.2,-0.8),frandom(-0.2,0.4));
-		FALG K 7 offset(2,34) A_PlaySound("weapons/smgmagmove",CHAN_WEAPON);
+		FALG K 7 offset(2,34) A_StartSound("weapons/smgmagmove",CHAN_WEAPON);
 		FALG L 6 offset(3,38);
 		FALG M 3 offset(0,34);
 		FALG N 3{
 			let mmm=hdmagammo(findinventory("HD_FALMag"));
 			if(mmm){
 				invoker.weaponstatus[ATCN_MAG]=mmm.TakeMag(true);
-				A_PlaySound("weapons/FALdrumin",CHAN_BODY);
+				A_StartSound("weapons/FALdrumin",CHAN_BODY);
 			}
 		}
 		FALG O 3;
@@ -364,7 +364,7 @@ class HD_DevinAutoCannon:HDWeapon{
 		FALG A 2 offset(33,50){
 			invoker.weaponstatus[ATCN_CHAMBER]=0;
 		}
-		FALG A 4 offset(32,49) A_PlaySound("weapons/smgchamber",CHAN_WEAPON);
+		FALG A 4 offset(32,49) A_StartSound("weapons/smgchamber",CHAN_WEAPON);
 
 	reloadend:
 		---- A 0 A_JumpIf(invoker.weaponstatus[ATCN_MAG]<0,"nomag_reloadend");

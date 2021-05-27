@@ -112,8 +112,8 @@ class HDFusionPistol:HDWeapon{
 			}
 			A_GunFlash();
 			A_FireFusionPistol();
-			A_PlaySound("weapons/ps20fire",CHAN_WEAPON);
-			A_PlaySound("weapons/ps20fire2",CHAN_6);
+			A_StartSound("weapons/ps20fire",CHAN_WEAPON);
+			A_StartSound("weapons/ps20fire2",CHAN_6);
 			//invoker.weaponstatus[VP91S_CHAMBER]=1;
 			invoker.weaponstatus[VP91S_HEAT]+=5;
 		}

@@ -533,7 +533,7 @@ class HDCombatKnife:HD_PB_UnarmedWeapon{
 	
 	
 	death:
-		KNFP X 1 nodelay{
+		KNFP X 1 {
 		invoker.bjustchucked=false;
 		A_SpawnItemEx("BulletPuffSmall");
 		A_NoGravity();
@@ -551,7 +551,7 @@ class HDCombatKnife:HD_PB_UnarmedWeapon{
 		}
 		goto spawn3;
 	Xdeath:
-		KNFP X 1 nodelay{
+		KNFP X 1 {
 		invoker.bjustchucked=false;
 			if(tracer){
 				//if(tracer.bcorpse)hdf.give(tracer,"SawGib",random(5,10));
@@ -567,7 +567,7 @@ class HDCombatKnife:HD_PB_UnarmedWeapon{
 		}
 		goto spawn3;
 	Crash:
-		KNFP X 1 nodelay{
+		KNFP X 1 {
 		invoker.bjustchucked=false;
 			if(tracer){
 				//if(tracer.bcorpse)hdf.give(tracer,"SawGib",random(5,10));

@@ -336,7 +336,7 @@ Sprite "HW0BB0", 14, 12
 	Patch "HWTZ_PT1", 0, 0
 }
 
-Sprite "HW0BGREY", 14, 12
+Graphic "HW0BGREY", 14, 12
 {
 	XScale 1.750
 	YScale 1.750
@@ -353,7 +353,7 @@ Sprite "HW0BGREY", 14, 12
 	}
 }
 
-Sprite "HW0BNORM", 14, 12
+Graphic "HW0BNORM", 14, 12
 {
 	XScale 1.750
 	YScale 1.750
