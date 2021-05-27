@@ -190,7 +190,7 @@ class HDTerminatorSG:HDWeapon{
             A_FireTerminator();
             givebody(max(0,11-health));
             damagemobj(invoker,self,5,"bashing");
-            A_StartSound("weapons/terminatorfwd",7,0.9);
+            A_StartSound("weapons/terminatorfwd",7,0,0.9);
         }
 		TRMG D 1{
 			if(hdplayerpawn(self)){
@@ -213,7 +213,7 @@ class HDTerminatorSG:HDWeapon{
 		}goto ready;
 	dontfire:
 			TRMG D 4{
-				A_StartSound("weapons/terminatorfwd",7,0.9);
+				A_StartSound("weapons/terminatorfwd",7,0,0.9);
 			}
 			TRMC F 6;
 			goto recock;
@@ -303,7 +303,7 @@ class HDTerminatorSG:HDWeapon{
 		goto ready;
 		emptyraise:
 		TNT1 A 3;
-		TNT1 A 9 A_PlaySound("weapons/terminatorfwd",7,0,0.9);
+		TNT1 A 9 A_StartSound("weapons/terminatorfwd",7,0,0.9);
 		TRMG B 2 offset(7,72);
 		TRMG "#" 2 offset(8,60);
 		TRMG "#" 1 offset(7,52);

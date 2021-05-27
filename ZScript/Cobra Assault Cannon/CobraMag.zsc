@@ -40,8 +40,8 @@ class HDDevincenziaMag : HDMagAmmo
 			||!owner.countinv(roundtype)
 		)return false;
 		owner.A_TakeInventory(roundtype,1,TIF_NOTAKEINFINITE);
-		owner.A_PlaySound("weapons/rifleclick2",CHAN_WEAPON);
-		owner.A_PlaySound("weapons/grenreload",CHAN_7);
+		owner.A_StartSound("weapons/rifleclick2",CHAN_WEAPON);
+		owner.A_StartSound("weapons/grenreload",CHAN_7);
 		mags[mags.size()-1]++;
 		
 			inserttime=21;

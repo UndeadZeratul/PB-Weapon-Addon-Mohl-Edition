@@ -32,7 +32,7 @@ class HDFusionPistol_Ball:Slowprojectile{
 	death:
 		ZFPP C 1 bright{
 			spawn("HDSmoke",pos,ALLOW_REPLACE);
-			A_PlaySound("weapons/ps20fire2",CHAN_BODY,0.4);
+			A_StartSound("weapons/ps20fire2",CHAN_BODY,volume:0.4);
 			damagetype="thermal";
 			//bextremedeath=false;
 			A_Explode(32,8);

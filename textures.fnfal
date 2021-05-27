@@ -236,7 +236,7 @@ Sprite "FALMD0", 31, 14
 	Patch "FALMB0", 0, 0
 }
 
-Sprite "FALMGREY", 31, 14
+Graphic "FALMGREY", 31, 14
 {
 	XScale 1.500
 	YScale 1.500
@@ -247,7 +247,7 @@ Sprite "FALMGREY", 31, 14
 	}
 }
 
-Sprite "FALMGRIY", 31, 14
+Graphic "FALMGRIY", 31, 14
 {
 	XScale 1.500
 	YScale 1.500

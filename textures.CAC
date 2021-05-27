@@ -243,7 +243,7 @@ Sprite "ATCMB0", 9, 11
 	Patch "CAC_PK01", 0, 0
 }
 
-Sprite "ATCMGREY", 9, 12
+Graphic "ATCMGREY", 9, 12
 {
 	XScale 1.500
 	YScale 1.500
@@ -264,7 +264,7 @@ Sprite "ATCMGREY", 9, 12
 	}
 }
 
-Sprite "ATCMNORM", 9, 12
+Graphic "ATCMNORM", 9, 12
 {
 	XScale 1.500
 	YScale 1.500

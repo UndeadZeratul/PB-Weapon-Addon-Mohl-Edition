@@ -152,7 +152,7 @@ class HDFireExtinguisher:HDWeapon{
 		//hit sound
 		if(punchee.bnoblood)
 		{
-		if(dmg*2>punchee.health)punchee.A_StartSound("weapons/axewall",CHAN_BODY,1.25);
+		if(dmg*2>punchee.health)punchee.A_StartSound("weapons/axewall",CHAN_BODY,volume:1.25);
 		}
 		else 
 		{
@@ -349,8 +349,8 @@ class HDFireExtinguisher_Projectile:HDFireball{
 	spawn:
 		BAL1 FFFGGG 2
 		{
-		scalex+=0.09;
-		scaley+=0.09;
+		scale.x+=0.09;
+		scale.y+=0.09;
 		}
 		stop;
 	death:
