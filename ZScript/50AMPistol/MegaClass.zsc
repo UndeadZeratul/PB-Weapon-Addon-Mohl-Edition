@@ -45,16 +45,16 @@ class HD_AutoMag:HDHandgun{
 		if(sb.hudlevel==1){
 			int nextmagloaded=sb.GetNextLoadMag(hdmagammo(hpl.findinventory("HD50AM_Mag")));
 			if(nextmagloaded>=7){
-				sb.drawimage("50AMA0",(-46,-3),sb.DI_SCREEN_CENTER_BOTTOM,scale:(3,3));
+				sb.drawimage("50AMA0",(-46,-3),sb.DI_SCREEN_CENTER_BOTTOM,scale:(2,2));
 			}else if(nextmagloaded<1){
-				sb.drawimage("50AMB0",(-46,-3),sb.DI_SCREEN_CENTER_BOTTOM,alpha:nextmagloaded?0.6:1.,scale:(3,3));
+				sb.drawimage("50AMB0",(-46,-3),sb.DI_SCREEN_CENTER_BOTTOM,alpha:nextmagloaded?0.6:1.,scale:(2,2));
 			}else sb.drawbar(
 				"50AMNORM","50AMGREY",
 				nextmagloaded,7,
 				(-46,-3),-1,
 				sb.SHADER_VERT,sb.DI_SCREEN_CENTER_BOTTOM
 			);
-			sb.drawnum(hpl.countinv("HD50AM_Mag"),-43,-8,sb.DI_SCREEN_CENTER_BOTTOM,font.CR_BLACK);
+			sb.drawnum(hpl.countinv("HD50AM_Mag"),-43,-8,sb.DI_SCREEN_CENTER_BOTTOM);
 		}
 		if(hdw.weaponstatus[0]&PI5F_SELECTFIRE)sb.drawwepcounter(hdw.weaponstatus[0]&PI5F_FIREMODE,
 			-22,-10,"RBRSA3A7","STFULAUT"

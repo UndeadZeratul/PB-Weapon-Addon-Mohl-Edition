@@ -74,7 +74,7 @@ class HD_M165Mag:HDMagAmmo{
 		fmag++;
 		if(fmag>3)fmag=0;
 		}
-		if(thismagamt==0)magsprite="A18MA0";
+		if(thismagamt==0)magsprite="A18ME0";
 		else if(fmag==0)magsprite="A18MB0";
 		else if(fmag==1)magsprite="A18MC0";
 		else if(fmag==2)magsprite="A18MD0";

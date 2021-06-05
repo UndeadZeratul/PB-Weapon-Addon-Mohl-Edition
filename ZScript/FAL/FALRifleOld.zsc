@@ -52,16 +52,16 @@ class HD_FNFAL:HDWeapon{
 		if(sb.hudlevel == 1){
 			int nextmagloaded=sb.GetNextLoadMag(hdmagammo(hpl.findinventory("HD_FALMag")));
 			if(nextmagloaded>=100){
-				sb.drawimage("FALMD0",(-50,-5),sb.DI_SCREEN_CENTER_BOTTOM);
+				sb.drawimage("FALMD0",(-54,-3),sb.DI_SCREEN_CENTER_BOTTOM);
 			}else if(nextmagloaded<1){
-				sb.drawimage("FALMC0",(-50,-5),sb.DI_SCREEN_CENTER_BOTTOM,alpha:nextmagloaded?0.6:1.);
+				sb.drawimage("FALMC0",(-54,-3),sb.DI_SCREEN_CENTER_BOTTOM,alpha:nextmagloaded?0.6:1.);
 			}else sb.drawbar(
 				"FALMD0","FALMGREY",
 				nextmagloaded,100,
-				(-46,-3),-1,
+				(-54,-3),-1,
 				sb.SHADER_VERT,sb.DI_SCREEN_CENTER_BOTTOM
 			);
-			sb.drawnum(hpl.countinv("HD_FALMag"),-43,-8,sb.DI_SCREEN_CENTER_BOTTOM,font.CR_BLACK);
+			sb.drawnum(hpl.countinv("HD_FALMag"),-43,-8,sb.DI_SCREEN_CENTER_BOTTOM);
 		}
 		sb.drawwepcounter(hdw.weaponstatus[FALG_AUTO],
 			-20,-12,"RBRSA3A7","STFULAUT"

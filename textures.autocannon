@@ -338,8 +338,8 @@ Sprite "HW0BB0", 14, 12
 
 Graphic "HW0BGREY", 14, 12
 {
-	XScale 1.750
-	YScale 1.750
+	XScale 1.300
+	YScale 1.300
 	Offset 7, 12
 	Patch "HWTZ_PT0", 0, 0
 	Patch "HWTZ_PT1", 0, 0
@@ -355,8 +355,8 @@ Graphic "HW0BGREY", 14, 12
 
 Graphic "HW0BNORM", 14, 12
 {
-	XScale 1.750
-	YScale 1.750
+	XScale 1.300
+	YScale 1.300
 	Offset 7, 12
 	Patch "HWTZ_PT0", 0, 0
 	Patch "HWTZ_PT1", 0, 0

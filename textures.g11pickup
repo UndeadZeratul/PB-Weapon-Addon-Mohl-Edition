@@ -67,8 +67,8 @@ Sprite "G11MB0", 22, 3
 
 Graphic "G11EMPTY", 3, 22
 {
-	XScale 2.5
-	YScale 2.5
+	XScale 1.0
+	YScale 1.0
 	Offset 2, 11
 	Patch "G11P_001", 0, 0
 	{
@@ -78,8 +78,8 @@ Graphic "G11EMPTY", 3, 22
 
 Graphic "G11NORM", 3, 22
 {
-	XScale 2.5
-	YScale 2.5
+	XScale 1.0
+	YScale 1.0
 	Offset 2, 11
 	Patch "G11MA0", 0, 0
 	{
@@ -105,8 +105,8 @@ Sprite "G11MD0", 3, 22
 
 Graphic "G11GREY", 3, 22
 {
-	XScale 2.000
-	YScale 2.000
+	XScale 1.0
+	YScale 1.0
 	Offset 2, 11
 	Patch "G11NORM", 0, 0
 	{

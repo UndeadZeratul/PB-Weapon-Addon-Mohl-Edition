@@ -55,22 +55,22 @@ class HD_M5165:HDWeapon{
 		}
 	}
 	override string,double getpickupsprite(){
-	return "A18P"..((weaponstatus[M165_MAG]<0)?"B":"A").."0";
+		return "A18P"..((weaponstatus[M165_MAG]<0)?"B":"A").."0";
 	}
-		override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
+	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
 		if(sb.hudlevel == 1){
 			int nextmagloaded=sb.GetNextLoadMag(hdmagammo(hpl.findinventory("HD_M165Mag")));
 			if(nextmagloaded>=165){
-				sb.drawimage("A18MNORM",(-50,-5),sb.DI_SCREEN_CENTER_BOTTOM,scale:(3,3));
+				sb.drawimage("A18MNORM",(-50,-2),sb.DI_SCREEN_CENTER_BOTTOM);
 			}else if(nextmagloaded<1){
-				sb.drawimage("A18MNORM",(-50,-5),sb.DI_SCREEN_CENTER_BOTTOM,alpha:nextmagloaded?0.6:1.,scale:(3,3));
+				sb.drawimage("A18MEMPTY",(-50,-2),sb.DI_SCREEN_CENTER_BOTTOM,alpha:nextmagloaded?0.6:1.);
 			}else sb.drawbar(
 				"A18MNORM","A18MGREY",
 				nextmagloaded,165,
-				(-46,-3),-1,
+				(-50,-2),-1,
 				sb.SHADER_VERT,sb.DI_SCREEN_CENTER_BOTTOM
 			);
-			sb.drawnum(hpl.countinv("HD_M165Mag"),-43,-8,sb.DI_SCREEN_CENTER_BOTTOM,font.CR_BLACK);
+			sb.drawnum(hpl.countinv("HD_M165Mag"),-43,-8,sb.DI_SCREEN_CENTER_BOTTOM);
 		}
 		sb.drawwepcounter(hdw.weaponstatus[M165_AUTO],
 			-20,-12,"RBRSA3A7","STFULAUT"

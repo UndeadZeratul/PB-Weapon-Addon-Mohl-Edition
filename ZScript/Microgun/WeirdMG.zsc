@@ -65,16 +65,16 @@ class HD_FDChaingun:HDWeapon{
 		if(sb.hudlevel==1){
 			int nextmagloaded=sb.GetNextLoadMag(hdmagammo(hpl.findinventory("SevenMilAmmo")));
 			if(nextmagloaded>=250){
-				sb.drawimage("HW0BA0",(-46,-3),sb.DI_SCREEN_CENTER_BOTTOM,scale:(1,1));
+				sb.drawimage("HW0BA0",(-49,-3),sb.DI_SCREEN_CENTER_BOTTOM,scale:(1,1));
 			}else if(nextmagloaded<1){
-				sb.drawimage("HW0BB0",(-46,-3),sb.DI_SCREEN_CENTER_BOTTOM,alpha:nextmagloaded?0.6:1.,scale:(1,1));
+				sb.drawimage("HW0BB0",(-49,-3),sb.DI_SCREEN_CENTER_BOTTOM,alpha:nextmagloaded?0.6:1.,scale:(1,1));
 			}else sb.drawbar(
 				"HW0BNORM","HW0BGREY",
 				nextmagloaded,250,
-				(-46,-3),-1,
+				(-49,-3),-1,
 				sb.SHADER_VERT,sb.DI_SCREEN_CENTER_BOTTOM
 			);
-			sb.drawnum(hpl.countinv("SevenMilAmmo"),-43,-8,sb.DI_SCREEN_CENTER_BOTTOM,font.CR_BLACK);
+			sb.drawnum(hpl.countinv("SevenMilAmmo"),-43,-8,sb.DI_SCREEN_CENTER_BOTTOM);
 		}
 		sb.drawwepnum(hdw.weaponstatus[CHGGS_MAG],250);
 		if(hdw.weaponstatus[CHGGS_CHAMBER]==2)sb.drawwepdot(-16,-10,(3,1));

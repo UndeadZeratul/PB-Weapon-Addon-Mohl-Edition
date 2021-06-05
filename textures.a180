@@ -3,8 +3,8 @@
 
 Graphic "A18MNORM", 24, 24
 {
-	XScale 4.000
-	YScale 4.000
+	XScale 1.5
+	YScale 1.5
 	Offset 12, 12
 	Patch "A18M_000", 1, 1
 	Patch "A18M_001", 6, 8
@@ -12,8 +12,8 @@ Graphic "A18MNORM", 24, 24
 
 Graphic "A18MGREY", 24, 24
 {
-	XScale 4.000
-	YScale 4.000
+	XScale 1.5
+	YScale 1.5
 	Offset 12, 12
 	Patch "A18M_000", 1, 1
 	{
@@ -23,6 +23,19 @@ Graphic "A18MGREY", 24, 24
 	{
 		Blend "#C0C0C0", 0.5
 	}
+}
+
+Graphic "A18MEMPTY", 24, 24
+{
+	XScale 1.5
+	YScale 1.5
+	Offset 12, 12
+	Patch "A18M_000", 1, 1
+	Patch "A18M_002", 6, 6
+	{
+		Rotate 90
+	}
+	Patch "A18M_003", 10, 10
 }
 
 Sprite "A18MY0", 19, 6

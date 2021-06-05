@@ -163,7 +163,8 @@ Sprite "R10MC0", 7, 11
 
 Graphic "R10MGREY", 4, 4
 {
-	YScale 1.300
+	XScale 0.44
+	YScale 0.64
 	Offset 2, 4
 	Patch "5MMZA0", -2, 0
 	{
@@ -177,7 +178,8 @@ Graphic "R10MGREY", 4, 4
 
 Graphic "R10MNORM", 4, 4
 {
-	YScale 1.300
+	XScale 0.44
+	YScale 0.64
 	Offset 2, 4
 	Patch "5MMZA0", -1, 0
 	Patch "RG12_MG0", 0, 0
@@ -185,7 +187,8 @@ Graphic "R10MNORM", 4, 4
 
 Graphic "R10MMPTY", 4, 4
 {
-	YScale 1.300
+	XScale 0.44
+	YScale 0.64
 	Offset 2, 4
 	Patch "RG12_MG0", 0, 0
 }
