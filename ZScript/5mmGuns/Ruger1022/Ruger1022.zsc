@@ -92,16 +92,16 @@ class HD_Ruger1022:HDWeapon{
 		if(sb.hudlevel==1){
 			int nextmagloaded=sb.GetNextLoadMag(hdmagammo(hpl.findinventory("HDRuger1022Mag")));
 			if(nextmagloaded>=10){
-				sb.drawimage("R10MNORM",(-46,-3),sb.DI_SCREEN_CENTER_BOTTOM,scale:(3,3));
+				sb.drawimage("R10MNORM",(-48,-3),sb.DI_SCREEN_CENTER_BOTTOM);
 			}else if(nextmagloaded<1){
-				sb.drawimage("R10MMPTY",(-46,-3),sb.DI_SCREEN_CENTER_BOTTOM,alpha:nextmagloaded?0.6:1.,scale:(3,3));
+				sb.drawimage("R10MMPTY",(-48,-3),sb.DI_SCREEN_CENTER_BOTTOM,alpha:nextmagloaded?0.6:1.);
 			}else sb.drawbar(
 				"R10MNORM","R10MGREY",
 				nextmagloaded,10,
-				(-46,-3),-1,
+				(-48,-3),-1,
 				sb.SHADER_VERT,sb.DI_SCREEN_CENTER_BOTTOM
 			);
-			sb.drawnum(hpl.countinv("HDRuger1022Mag"),-43,-8,sb.DI_SCREEN_CENTER_BOTTOM,font.CR_BLACK);
+			sb.drawnum(hpl.countinv("HDRuger1022Mag"),-43,-8,sb.DI_SCREEN_CENTER_BOTTOM);
 		}
 		sb.drawwepcounter(hdw.weaponstatus[RG12S_AUTO],
 			-22,-10,"RBRSA3A7","STBURAUT","STFULAUT"

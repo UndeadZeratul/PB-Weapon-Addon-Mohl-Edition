@@ -66,18 +66,18 @@ class HD_M2HB:HDWeapon{
 	}
 	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
 		if(sb.hudlevel==1){
-			int nextmagloaded=sb.GetNextLoadMag(hdmagammo(hpl.findinventory("HD50OMGAmmo")));
+			int nextmagloaded=sb.GetNextLoadMag(hdmagammo(hpl.findinventory("HD_PB_50OMGBeltBox")));
 			if(nextmagloaded>=100){
-				sb.drawimage("HW0BA0",(-46,-3),sb.DI_SCREEN_CENTER_BOTTOM,scale:(1,1));
+				sb.drawimage("HW0BA0",(-49,-3),sb.DI_SCREEN_CENTER_BOTTOM,scale:(1,1));
 			}else if(nextmagloaded<1){
-				sb.drawimage("HW0BB0",(-46,-3),sb.DI_SCREEN_CENTER_BOTTOM,alpha:nextmagloaded?0.6:1.,scale:(1,1));
+				sb.drawimage("HW0BB0",(-49,-3),sb.DI_SCREEN_CENTER_BOTTOM,alpha:nextmagloaded?0.6:1.,scale:(1,1));
 			}else sb.drawbar(
 				"HW0BNORM","HW0BGREY",
 				nextmagloaded,100,
-				(-46,-3),-1,
+				(-49,-3),-1,
 				sb.SHADER_VERT,sb.DI_SCREEN_CENTER_BOTTOM
 			);
-			sb.drawnum(hpl.countinv("HD_PB_50OMGBeltBox"),-43,-8,sb.DI_SCREEN_CENTER_BOTTOM,font.CR_BLACK);
+			sb.drawnum(hpl.countinv("HD_PB_50OMGBeltBox"),-43,-8,sb.DI_SCREEN_CENTER_BOTTOM);
 		}
 		sb.drawwepnum(hdw.weaponstatus[M2HBS_MAG],100);
 		if(hdw.weaponstatus[M2HBS_CHAMBER]==2)sb.drawwepdot(-16,-10,(3,1));

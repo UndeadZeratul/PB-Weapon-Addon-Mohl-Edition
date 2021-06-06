@@ -89,13 +89,28 @@ class HDMicrogun:HDWeapon{
 	override string,double getpickupsprite(){return "SMP1"..((weaponstatus[MCRGS_AMMO]<0)?"A":"B").."0",1.;}
 	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
 		if(sb.hudlevel==1){
-			//sb.drawimage("P20PA0",(-48,-10),sb.DI_SCREEN_CENTER_BOTTOM,scale:(0.7,0.7));
-			if(weaponstatus[MCRGS_AMMO]>0)sb.DrawNum(hdw.weaponstatus[MCRGS_AMMO], -16, -22, sb.DI_SCREEN_CENTER_BOTTOM | sb.DI_TEXT_ALIGN_RIGHT, Font.CR_RED);
-			if(weaponstatus[MCRGS_TARGETTER]!=1)sb.drawwepcounter(hdw.weaponstatus[MCRGS_TARGETTER],
-			-22,-10,"RBRSA3A7","STBURAUT","STFULAUT"
-		);
+			int nextmagloaded=sb.GetNextLoadMag(hdmagammo(hpl.findinventory("HD_PB_7mmBeltBox")));
+			if(nextmagloaded>=250){
+				sb.drawimage("HW0BA0",(-49,-3),sb.DI_SCREEN_CENTER_BOTTOM,scale:(1,1));
+			}else if(nextmagloaded<1){
+				sb.drawimage("HW0BB0",(-49,-3),sb.DI_SCREEN_CENTER_BOTTOM,alpha:nextmagloaded?0.6:1.,scale:(1,1));
+			}else sb.drawbar(
+				"HW0BNORM","HW0BGREY",
+				nextmagloaded,250,
+				(-49,-3),-1,
+				sb.SHADER_VERT,sb.DI_SCREEN_CENTER_BOTTOM
+			);
+			sb.drawnum(hpl.countinv("HD_PB_7mmBeltBox"),-43,-8,sb.DI_SCREEN_CENTER_BOTTOM);
+
+			if(weaponstatus[MCRGS_AMMO]>0){
+				sb.DrawNum(hdw.weaponstatus[MCRGS_AMMO], -16, -22, sb.DI_SCREEN_CENTER_BOTTOM | sb.DI_TEXT_ALIGN_RIGHT, Font.CR_RED);
+				sb.drawwepnum(hdw.weaponstatus[MCRGS_AMMO],250);
+			}
+			if(weaponstatus[MCRGS_TARGETTER]!=1)
+				sb.drawwepcounter(hdw.weaponstatus[MCRGS_TARGETTER],-22,-10,"RBRSA3A7","STBURAUT","STFULAUT");
 		}
-		if(hdw.weaponstatus[0]&MCRGS_AMMO){
+		// Draw indicator that the magazine is unloaded.
+		if(hdw.weaponstatus[0]&MCRGS_AMMO && weaponstatus[MCRGS_AMMO]<0){
 			sb.drawrect(-26,-17,10,1);
 			sb.drawrect(-24,-20,8,1);
 			sb.drawrect(-21,-23,5,1);
@@ -107,7 +122,6 @@ class HDMicrogun:HDWeapon{
 		WEPHELP_FIRESHOOT
 		//..WEPHELP_ALTFIRE.."  Toggle harness\n"
 		..WEPHELP_RELOAD.."  Reload\n"
-		..WEPHELP_ALTRELOAD.."  Change battery\n"
 		..WEPHELP_FIREMODE.."  Manual/Assisted\n"
 		..WEPHELP_MAGMANAGER
 		..WEPHELP_UNLOADUNLOAD
@@ -334,6 +348,7 @@ class HDMicrogun:HDWeapon{
 	}
 	override void InitializeWepStats(bool idfa){
 		weaponstatus[MCRGS_AMMO]=250;
+		weaponstatus[0]&=~MCRGS_AMMO;
 		if(!idfa){
 			weaponstatus[0]=0;
 			weaponstatus[MCRGS_HEAT]=0;

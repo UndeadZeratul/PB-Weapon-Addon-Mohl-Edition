@@ -137,7 +137,7 @@ class HDPS20:HD_PB_UnarmedWeapon{
 	override string,double getpickupsprite(){return "P20PA0",1.0;}
 	override void DrawHUDStuff(HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl){
 		if(sb.hudlevel==1){
-			sb.drawnum(hpl.countinv("HDPS20"),-45,-8,sb.DI_SCREEN_CENTER_BOTTOM,font.CR_BLACK);
+			sb.drawnum(hpl.countinv("HDPS20"),-45,-8,sb.DI_SCREEN_CENTER_BOTTOM);
 		}
 		if(hdw.weaponstatus[PS20S_CHAMBER]>1)sb.drawwepdot(-16,-10,(5,3));
 	}

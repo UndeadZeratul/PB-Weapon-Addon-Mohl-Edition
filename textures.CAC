@@ -245,8 +245,6 @@ Sprite "ATCMB0", 9, 11
 
 Graphic "ATCMGREY", 9, 12
 {
-	XScale 1.500
-	YScale 1.500
 	Offset 3, 12
 	Patch "ATCMA0", 0, 0
 	{
@@ -266,8 +264,6 @@ Graphic "ATCMGREY", 9, 12
 
 Graphic "ATCMNORM", 9, 12
 {
-	XScale 1.500
-	YScale 1.500
 	Offset 3, 12
 	Patch "ATCMA0", 0, 0
 }
