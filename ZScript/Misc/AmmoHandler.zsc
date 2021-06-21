@@ -1,0 +1,46 @@
+// Because purging ammo that you actually want to use is annoying
+// Also, hope you don't mind the coding style inconsistency
+
+class PB_AmmoHandler : EventHandler {
+	// Makes my life more easier
+	void PushItem(Actor T, string item) {
+		let A = HDPickup(T);
+		A.itemsthatusethis.push(item);
+	}
+
+	override void WorldThingSpawned(WorldEvent e) {
+		let T = e.Thing;
+
+		if (T is "HDRevolverAmmo") {
+			// (Check this first, because HDRevolverAmmo inherits HDPistolAmmo)
+			// .355 rounds
+			PushItem(T, "HD_Colt355");
+		} else if (T is "HDPistolAmmo") {
+			// 9mm Rounds
+			PushItem(T, "HDMAC11");
+		} else if (T is "HD9mMag30") {
+			// (Check this first, because HD9mMag30 inherits HD9mMag15)
+			// SMG mag.
+			PushItem(T, "HDMAC11");
+		} else if (T is "HDShellAmmo") {
+			// Shells
+			PushItem(T, "HDUragan5");
+			PushItem(T, "HDTerminatorSG"); // BEST SHOTGUN IN THE WHOLE GAME
+		} else if (T is "FourMilAmmo") {
+			// 4.26 Rounds
+			PushItem(T, "HDG11Rifle");
+			PushItem(T, "HDG11Rifle_Scoped");
+		} else if (T is "SevenMilAmmo") {
+			// 7.76 Rounds
+			PushItem(T, "HD_FNFAL");
+			PushItem(T, "HDMicrogun");
+		} else if (T is "HD50OMGAmmo") {
+			// .50 OMG Rounds
+			PushItem(T, "HD_M2HB");
+		} else if (T is "BrontornisRound") {
+			// Bronto rounds
+			PushItem(T, "HD_ATCDevincenzia");
+			PushItem(T, "HD_ATCKelenken");
+		}
+	}
+}
