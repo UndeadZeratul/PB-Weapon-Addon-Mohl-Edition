@@ -224,7 +224,7 @@ class HDRiotShield_Front:HDActor{
 	damagefactor 0.0001;
 	species "HDPlayerPawn";
 	}
-	virtual double bulletresistance(
+	override double bulletresistance(
 		double hitangle //abs(bullet.angleto(hitactor),bullet.angle)
 	){
 		return max(0,0.25);
