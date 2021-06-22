@@ -8,7 +8,7 @@ version "4.4"
 #include "ZScript/Melee/HDSledge.zsc"
 #include "ZScript/Melee/HDKnife.zsc"
 #include "ZScript/Melee/HDKharon.zsc"
-//#include "ZScript/Melee/RiotShield.zsc" //fuck this, its bad
+#include "ZScript/Melee/RiotShield.zsc" //fuck this, its bad
 //#include "ZScript/Melee/MeleeSpawner.zsc"
 
 //Chives Herstal SP-50 Automag
