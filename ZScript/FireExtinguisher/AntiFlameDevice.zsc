@@ -13,8 +13,8 @@ class HDFireExtinguisher:HDWeapon{
 		//$Title "burn thingy"
 		//$Sprite "CSAWA0"
 		+hdweapon.fitsinbackpack
-		weapon.selectionorder 90;
-		weapon.slotnumber 4;
+		weapon.selectionorder 300;
+		weapon.slotnumber 1;
 		weapon.bobstyle "Alpha";
 		weapon.bobrangex 0.3;
 		weapon.bobrangey 1.4;
