@@ -80,9 +80,7 @@ class HDCombatKnife:HD_PB_UnarmedWeapon{
 			if(hdp.fatigue>=30){setweaponstate("hold");return;}
 			else hdp.fatigue+=3;
 		}
-		double overloaded=hdp.CheckEncumbrance();
-		A_Recoil(min(overloaded*0.6,4.)-4.);
-		hdp.overloaded=overloaded;
+		A_Recoil(min(hdp.overloaded*0.6,4.)-4.);
 	}
 
 		//for throwing a weapon

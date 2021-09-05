@@ -353,7 +353,10 @@ class HDFireAxe:HD_PB_UnarmedWeapon{
 	action void A_Lunge(){
 		hdplayerpawn hdp=hdplayerpawn(self);
 		if(hdp){
-			if(hdp.fatigue>=30){setweaponstate("hold");return;}
+			if(hdp.fatigue>=30||(pos.z>floorz&&!checkmove(pos.xy-angletovector(angle,8),PCM_DROPOFF|PCM_NOACTORS)))
+			{setweaponstate("recoverswing");
+				return;
+			}
 			else hdp.fatigue+=3;
 		}
 		A_Recoil(-3);
@@ -399,6 +402,7 @@ class HDFireAxe:HD_PB_UnarmedWeapon{
 		FAX1 KKLLMMM 2;
 		goto readyend;
 	fire:
+	hold:
 	althold:
 		TNT1 A 0;
 	startfire:

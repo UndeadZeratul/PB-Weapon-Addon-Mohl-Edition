@@ -356,7 +356,10 @@ class HDSledgehammer:HD_PB_UnarmedWeapon{
 	action void A_Lunge(){
 		hdplayerpawn hdp=hdplayerpawn(self);
 		if(hdp){
-			if(hdp.fatigue>=30){setweaponstate("hold");return;}
+			if(hdp.fatigue>=30||(pos.z>floorz&&!checkmove(pos.xy-angletovector(angle,8),PCM_DROPOFF|PCM_NOACTORS)))
+			{setweaponstate("recoverswing");
+				return;
+			}
 			else hdp.fatigue+=3;
 		}
 		A_Recoil(-3);
