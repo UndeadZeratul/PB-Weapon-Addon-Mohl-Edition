@@ -25,6 +25,11 @@ class HDTerminatorSG:HDWeapon{
 		inventory.maxamount 3;
 	}
 	
+		override string pickupmessage(){
+		if(weaponstatus[TRMI_ALTPIN]>0)return string.format("%s The firing pin seems to be replaced with a nail.",super.pickupmessage());
+		//else return string.format("%s ",super.pickupmessage());
+		return super.pickupmessage();
+	}
 		double shotpower;
 	static clearscope double getshotpower(){return frandom(0.9,1.05);}
 	
@@ -58,11 +63,7 @@ class HDTerminatorSG:HDWeapon{
 		invoker.shotpower=shotpower;
 	}
 	
-	override string pickupmessage(){
-		if(weaponstatus[0]&TRMI_ALTPIN)return string.format("%s The firing pin seems to be replaced with a nail.",super.pickupmessage());
-		else return string.format("%s ",super.pickupmessage());
-		return super.pickupmessage();
-	}
+
 	
 	override bool AddSpareWeapon(actor newowner){return AddSpareWeaponRegular(newowner);}
 	override hdweapon GetSpareWeapon(actor newowner,bool reverse){return GetSpareWeaponRegular(newowner,reverse);}
@@ -334,20 +335,21 @@ class HDTerminatorSG:HDWeapon{
 	override void initializewepstats(bool idfa){
 		weaponspecial = 1337;
 		weaponstatus[0]=0;
-		weaponstatus[TRMI_ALTPIN]=0;
+		if(weaponstatus[TRMI_ALTPIN]==1)weaponstatus[TRMI_ALTPIN]=1;
+		else weaponstatus[TRMI_ALTPIN]=0;
 		weaponstatus[TRMI_CHAMBER]=2;
 	}
 	override void loadoutconfigure(string input){
 		int altpin=getloadoutvar(input,"altpin",1);
-		if(!altpin){
-			weaponstatus[0]&=~TRMI_ALTPIN;
-			weaponstatus[TRMI_ALTPIN]==1;
-		}else if(altpin>0){
-			weaponstatus[0]|=TRMI_ALTPIN;
-			weaponstatus[TRMI_ALTPIN]++;
-			weaponstatus[TRMI_ALTPIN]++;
-			weaponstatus[TRMI_ALTPIN]++;
-		}
+//		if(!altpin){
+//			weaponstatus[0]&=~TRMI_ALTPIN;
+//			weaponstatus[TRMI_ALTPIN]==1;
+//		}else if(altpin>0){
+//			weaponstatus[0]|=TRMI_ALTPIN;
+//			weaponstatus[TRMI_ALTPIN]++;
+//			weaponstatus[TRMI_ALTPIN]++;
+//			weaponstatus[TRMI_ALTPIN]++;
+//			}
 	}
 }
 
@@ -359,8 +361,8 @@ class TerminatorRandom:IdleDummy{
 			if(!lll)return;
 			lll.special=special;
 			lll.vel=vel;
-			for(int i=0;i<5;i++)lll.args[i]=args[i];
-			if(random(0,8)==0)lll.weaponstatus[0]|=TRMI_ALTPIN	;
+//			for(int i=0;i<5;i++)lll.args[i]=args[i];
+			if(!random(0,8))lll.weaponstatus[0]|=TRMI_ALTPIN;
 		}stop;
 	}
 }

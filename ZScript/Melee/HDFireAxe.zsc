@@ -361,7 +361,15 @@ class HDFireAxe:HD_PB_UnarmedWeapon{
 		}
 		A_Recoil(-3);
 	}
-	
+	static void kick(actor kicker,actor kickee,actor kicking){
+		kickee.A_PlaySound("weapons/smack",CHAN_BODY);
+		bool kzk=kicker.countinv("PowerStrength");
+		kickee.damagemobj(kicking,kicker,kzk?random(20,40):random(10,20),"bashing");
+		if(kickee&&!kickee.bnopain&&kickee.health>0&&random(0,4))kickee.setstatelabel("pain");
+		vector3 kickdir=(kickee.pos-kicker.pos).unit();
+		if(kickee)kickee.vel=kickdir*(kzk?10:2);
+		kicker.vel-=kickdir;
+	}
 	override double weaponbulk(){
 		return 55;
 	}
