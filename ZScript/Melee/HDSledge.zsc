@@ -374,7 +374,7 @@ class HDSledgehammer:HD_PB_UnarmedWeapon{
 		kicker.vel-=kickdir;
 	}
 	override double weaponbulk(){
-		return 65;
+		return 75;
 	}
 	override double gunmass(){
 		return 30;
