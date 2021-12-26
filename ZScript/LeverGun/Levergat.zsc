@@ -328,7 +328,7 @@ class HDLeverGun:HDWeapon{
 		---- A 1 bright{
 			HDFlashAlpha(64);
 			A_Light1();
-			let bbb=HDBulletActor.FireBullet(self,"HDB_50AM",speedfactor:1.5);
+			let bbb=HDBulletActor.FireBullet(self,"HDB_50AM",speedfactor:1.25);
 			if(
 				frandom(0,ceilingz-floorz)<bbb.speed*0.3
 			)A_AlertMonsters(256);

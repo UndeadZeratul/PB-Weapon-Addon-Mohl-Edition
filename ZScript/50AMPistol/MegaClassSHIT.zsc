@@ -476,23 +476,23 @@ class HD_AutoMagFA:HDWeaponGiver{
 class HDBullet50AM:HDBullet{
 	default{
 		pushfactor 0.325;
+		mass 260;
+		speed HDCONST_MPSTODUPT * 770;
+		accuracy 180;
+		Stamina 1270;
+		woundhealth 27;
+		HDBulletActor.Hardness 2;
+		hdbullet.distantsounder "DoubleDistantRifle";
+	}
+}
+//4.3.3c 50AM
+/*class HDBullet50AM:HDBullet{
+	default{
+		pushfactor 0.325;
 		mass 1563;
 		speed 935;
 		accuracy 8;
 		woundhealth 13;
-		hdbullet.distantsounder "DoubleDistantRifle";
-	}
-}
-
-//7.76mm  (in between 7.62x39 and 7.62x54R)
-/*
-class HDBullet776:HDBullet{
-	default{
-		pushfactor 0.25;
-		mass 1344;
-		speed 1100;
-		accuracy 12;
-		woundhealth 16;
 		hdbullet.distantsounder "DoubleDistantRifle";
 	}
 }
