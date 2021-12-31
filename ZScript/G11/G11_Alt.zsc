@@ -2,7 +2,7 @@ class HDB_426_Suppressed:HDBulletActor{
 	default{
 		pushfactor 0.4;
 		mass 32; //55
-		speed 1200;
+		speed HDCONST_MPSTODUPT*990;//1200;
 		accuracy 666;
 		stamina 426;
 		woundhealth 40;
