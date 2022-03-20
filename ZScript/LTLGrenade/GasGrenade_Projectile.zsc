@@ -32,7 +32,11 @@ class HD_PBGasEmit:HDPuff{
             while (itr.next()) {
                 let next = itr.thing;
                 if (next.bKILLED)
-                    continue; 
+                    continue;
+				string checker = "uas_respirator_worn";
+				let rrr = next.findinventory(checker);
+				if(rrr)
+					continue;
 				if (next.countinv("WornRadsuit"))
                     continue; 
 				if (next.bNOBLOOD)
