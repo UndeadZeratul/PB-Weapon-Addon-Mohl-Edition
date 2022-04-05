@@ -49,7 +49,7 @@ class HDFireExtinguisher:HDWeapon{
 		return 100+(weaponstatus[FIREXS_GASOLINE]>=0?ENC_GASTANK:0);
 	}
 	
-		action void HDPunch(int dmg){
+	action void HDPunch(double dmg){
 		flinetracedata punchline;
 		bool punchy=linetrace(
 			angle,70,pitch,
@@ -165,7 +165,7 @@ class HDFireExtinguisher:HDWeapon{
 		punchee.InStateSequence(curstate,resolvestate("falldown"));
 		//punchee.InStateSequence(curstate,resolvestate("falldown"));
 		
-		if(punchee.health>0)punchee.damagemobj(self,self,dmg,"SmallArms3");
+		if(punchee.health>0)punchee.damagemobj(self,self,int(dmg),"SmallArms3");
 		//else HDF.Give(punchee,"SawGib",dmg*0.2);
 		
 		LineAttack(angle,70,pitch,punchline.hitline?(countinv("PowerStrength")?random(50,120):random(5,15)):0,"none",
@@ -328,7 +328,7 @@ class HDFireExtinguisher_Projectile:HDFireball{
 	void A_ImpSquirt(){
 		roll=frandom(0,360);alpha*=0.96;scale*=frandom(1.,0.96);
 		if(!tracer)return;
-		int diff=max(
+		double diff=max(
 			absangle(initangleto,angleto(tracer)),
 			absangle(inittangle,tracer.angle),
 			abs(inittz-tracer.pos.z)*0.05

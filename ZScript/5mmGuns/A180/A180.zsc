@@ -214,7 +214,7 @@ class HD_M5165:HDWeapon{
 			A_Light1();
 		}
 		A18F A 1 bright{
-			HDFlashAlpha(frandom(0,256));
+			HDFlashAlpha(random(0,256));
 			A_Light1();
 		}
 		goto lightdone;
