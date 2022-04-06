@@ -18,12 +18,29 @@ class HD_PBGasEmit:HDPuff{
 		+BOUNCEONFLOORS +BOUNCEONCEILINGS +BOUNCEONWALLS
 		//renderstyle "add";
 	}
+	
+	// For the UAS resperator support.
+	service RespStatus;
+	bool IsPlayerUsingRespirator(HDPlayerPawn ppp){
+		// prematurely returns if ppp is not a player pointer, 
+		// or if the service is not available. 
+		if(!ppp || !respstatus)return false;
+		// returns the status of the resperator. 
+		return int(RespStatus.GetInt("IsWorn", objectArg:ppp));
+	}
 	override void postbeginplay(){
 		HDActor.postbeginplay();
 		if(max(abs(pos.x),abs(pos.y),abs(pos.z))>=32768){destroy();return;}
 		grow*=scale.x;
 		vel.z+=startvelz;
 		grav=getgravity();
+
+		
+		// Looks for a pointer to respstatus,
+		// this does nothing if respstatus doesn't exist. 
+		ServiceIterator i = ServiceIterator.Find("UaS_RespiratorStatus");
+		while((respstatus = i.next()) && !respstatus){};
+		
 	}
 	
 	action void A_PoisonAoE (double aoeRadius, int damage, int duration
@@ -33,12 +50,12 @@ class HD_PBGasEmit:HDPuff{
                 let next = itr.thing;
                 if (next.bKILLED)
                     continue;
-				string checker = "uas_respirator_worn";
-				let rrr = next.findinventory(checker);
-				if(rrr)
-					continue;
 				if (next.countinv("WornRadsuit"))
                     continue; 
+					
+				// here we check if the player is wearing a resperator. 
+				if(invoker.IsPlayerUsingRespirator(HDPlayerPawn(next)))
+					continue;
 				if (next.bNOBLOOD)
                     continue; 
                 double dist = Distance3D(next);
