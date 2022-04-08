@@ -103,7 +103,7 @@ class HDM165Mag_Empty:IdleDummy{
 class HDM165Mag_Used:IdleDummy{
 	override void postbeginplay(){
 		super.postbeginplay();
-		HDMagAmmo.SpawnMag(self,"HD_M165Mag",frandom(25,90));
+		HDMagAmmo.SpawnMag(self,"HD_M165Mag",random(25,90));
 		destroy();
 	}
 }

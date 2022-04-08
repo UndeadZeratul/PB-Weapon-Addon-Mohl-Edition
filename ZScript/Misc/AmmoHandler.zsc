@@ -11,36 +11,39 @@ class PB_AmmoHandler : EventHandler {
 	override void WorldThingSpawned(WorldEvent e) {
 		let T = e.Thing;
 
-		if (T is "HDRevolverAmmo") {
-			// (Check this first, because HDRevolverAmmo inherits HDPistolAmmo)
-			// .355 rounds
+		switch (T.GetClassName()) {
+		case 'HDRevolverAmmo':
 			PushItem(T, "HD_Colt355");
-		} else if (T is "HDPistolAmmo") {
-			// 9mm Rounds
+			break;
+
+		case 'HD9mMag30':
+		case 'HDPistolAmmo':
 			PushItem(T, "HDMAC11");
-		} else if (T is "HD9mMag30") {
-			// (Check this first, because HD9mMag30 inherits HD9mMag15)
-			// SMG mag.
-			PushItem(T, "HDMAC11");
-		} else if (T is "HDShellAmmo") {
-			// Shells
+			break;
+
+		case 'HDShellAmmo':
 			PushItem(T, "HDUragan5");
 			PushItem(T, "HDTerminatorSG"); // BEST SHOTGUN IN THE WHOLE GAME
-		} else if (T is "FourMilAmmo") {
-			// 4.26 Rounds
+			break;
+
+		case 'FourMilAmmo':
 			PushItem(T, "HDG11Rifle");
 			PushItem(T, "HDG11Rifle_Scoped");
-		} else if (T is "SevenMilAmmo") {
-			// 7.76 Rounds
+			break;
+
+		case 'SevenMilAmmo':
 			PushItem(T, "HD_FNFAL");
 			PushItem(T, "HDMicrogun");
-		} else if (T is "HD50OMGAmmo") {
-			// .50 OMG Rounds
+			break;
+
+		case 'HD50OMGAmmo':
 			PushItem(T, "HD_M2HB");
-		} else if (T is "BrontornisRound") {
-			// Bronto rounds
+			break;
+
+		case 'BrontornisRound':
 			PushItem(T, "HD_ATCDevincenzia");
 			PushItem(T, "HD_ATCKelenken");
+			break;
 		}
 	}
 }
