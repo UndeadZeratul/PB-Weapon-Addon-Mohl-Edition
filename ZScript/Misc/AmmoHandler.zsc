@@ -10,7 +10,10 @@ class PB_AmmoHandler : EventHandler {
 
 	override void WorldThingSpawned(WorldEvent e) {
 		let T = e.Thing;
-
+		
+		// Null check for event removal. 
+		if(!T)return;
+		
 		switch (T.GetClassName()) {
 		case 'HDRevolverAmmo':
 			PushItem(T, "HD_Colt355");
