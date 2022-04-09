@@ -66,16 +66,23 @@ class HDRPOA_WEP:HDWeapon{
 		ggg.angle=angle;ggg.pitch=pitch-0;ggg.target=self;ggg.master=self;
 		ggg.primed=true;
 		
-		let blst=hd_backblast(spawn("HD_Backblast",pos+(
-				-10,0,HDWeapon.GetShootOffset(
-					self,invoker.barrellength,
-					invoker.barrellength-HDCONST_SHOULDERTORADIUS
-				)-2
-			),
-			ALLOW_REPLACE)
-		);
-		blst.angle=angle-180;blst.pitch=pitch-180;blst.target=self;blst.master=self;
-		blst.vel.x=cos(pitch)*-60; blst.vel.y=0; blst.vel.z=-sin(pitch)*-60;
+			double shootangle = angle-180;
+		vector3 positionoffset;
+        positionoffset += (cos(shootangle) * 5, sin(shootangle) * 5,
+        HDWeapon.GetShootOffset(
+        self,invoker.barrellength,
+        invoker.barrellength-HDCONST_SHOULDERTORADIUS
+        )-2);
+
+        let blst=actor(spawn("HD_Backblast",pos+positionoffset,
+            ALLOW_REPLACE)
+        );
+        blst.angle=shootangle;
+        blst.pitch=pitch-180;
+        blst.target=self;
+        blst.master=self;
+        blst.vel.xy = (cos(shootangle) * 60, sin(shootangle) * 60);
+        blst.vel.z=-sin(pitch)*-60;
 	}
 	
 		override void DrawSightPicture(
