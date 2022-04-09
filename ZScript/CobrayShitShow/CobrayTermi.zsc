@@ -338,10 +338,8 @@ class HDTerminatorSG:HDWeapon{
 		---- A 0{
 			invoker.weaponstatus[0]&=~TRMF_JUSTUNLOAD;
 			if(invoker.weaponstatus[TRMI_CHAMBER]>=1)setweaponstate("nope");
-			{
-				if(countinv("HDShellAmmo"))setweaponstate("loadchamber");
-				else setweaponstate("nope");
-			}
+			else if(countinv("HDShellAmmo"))setweaponstate("loadchamber");
+			else setweaponstate("nope");
 		}
 			goto nope;
 	spawn:
