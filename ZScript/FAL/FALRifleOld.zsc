@@ -210,7 +210,7 @@ class HD_FNFAL:HDWeapon{
 			invoker.weaponstatus[FALG_CHAMBER]=1;
 		}
 		FALF A 1 bright{
-			HDFlashAlpha(frandom(32,64));
+			HDFlashAlpha(random(32,64));
 			A_Light1();
 			A_ZoomRecoil(0.90);
 			A_MuzzleClimb(0,0,-0.07,-0.14,-frandom(0.3,0.6),-frandom(1.,1.4),-frandom(0.2,0.4),-frandom(1.,1.4));

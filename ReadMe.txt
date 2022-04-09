@@ -1,3 +1,9 @@
+You need BulletLib to run this mod.
+I'm not particularly active in HDest at the moment, but if you ping me on the HDest Discord, I'll respond to ya.
+
+
+
+
 CREDITS TO EVERYTHING
 
 ---ZScript---
