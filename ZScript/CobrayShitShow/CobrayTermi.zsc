@@ -89,10 +89,9 @@ class HDTerminatorSG:HDWeapon{
 				basestatusbar.DI_SCREEN_CENTER_BOTTOM
 			);
 		}
-		if(hdw.weaponstatus[TRMI_CHAMBER]>1){
-			sb.drawwepdot(-19,-11,(5,3));
-			sb.drawwepdot(-16,-11,(2,3));
-		}
+		int chm = hdw.weaponstatus[TRMI_CHAMBER];
+			if(chm>1)sb.drawwepdot(-19,-11,(5,3));
+			if(chm)sb.drawwepdot(-16,-11,(2,3));
 		}
 		
 	override string gethelptext(){
@@ -190,6 +189,7 @@ class HDTerminatorSG:HDWeapon{
             if(invoker.weaponstatus[TRMI_CHAMBER]==2)
             A_FireTerminator();
             givebody(max(0,11-health));
+			invoker.weaponstatus[TRMI_CHAMBER]=1;
             damagemobj(invoker,self,5,"bashing");
             A_StartSound("weapons/terminatorfwd",7,0,0.9);
         }
@@ -201,7 +201,7 @@ class HDTerminatorSG:HDWeapon{
 				A_MuzzleClimb(1.6,-3.9,1.6,-3.9);
 		}
 		TRMG D 0{
-			//invoker.weaponstatus[TRMI_CHAMBER]=1;
+
 				A_StartSound("weapons/terminatoropen",7,0,0.9);
 				setweaponstate("nope");
 			}
@@ -238,7 +238,7 @@ class HDTerminatorSG:HDWeapon{
 	unload:
 		---- A 0{
 			invoker.weaponstatus[0]|=TRMF_JUSTUNLOAD;
-			if(invoker.weaponstatus[TRMI_CHAMBER]<=1)setweaponstate("nope");
+			if(invoker.weaponstatus[TRMI_CHAMBER]<1)setweaponstate("nope");
 		}
 		goto continueloadchamber;
 	loadchamber:
@@ -277,14 +277,35 @@ class HDTerminatorSG:HDWeapon{
 		TNT1 "#" 6 {
 			A_StartSound("weapons/bossload",CHAN_WEAPON,0,0.7);
 			if(invoker.weaponstatus[0]&TRMF_JUSTUNLOAD){
+
+				// Grabs the chamber's value. 
 				int chm=invoker.weaponstatus[TRMI_CHAMBER];
+				
+				// Resets chamber.
 				invoker.weaponstatus[TRMI_CHAMBER]=0;
-				if(chm<2||A_JumpIfInventory("HDShellAmmo",0,"null")){
-					class<actor> whatkind=chm==1?"HDShellAmmo":"HDSpentShell_Sweeper";
-					actor rrr=spawn(whatkind,pos+(cos(angle)*10,sin(angle)*10,height-12),ALLOW_REPLACE);
+				
+				// Masks all of the reloading booleans together. 
+				bool reloadkey = pressingunload() || pressingreload() || pressingaltreload();
+				
+				// Here we check to see if the player is holding unload.
+				// if not the shell is fumbled. 
+				if(reloadkey && (chm >= 2))
+				{
+					HDF.Give(invoker.owner,"HDShellAmmo",1);
+					return;
+				}
+				else
+				{
+					// This is dumb and bad but it works. 
+					chm--;
+					
+					// Actually spawns the loose actor. 
+					class<actor> whatkind=chm==1?"HDFumblingShell":"HDSpentShell_Sweeper";
+					actor rrr=spawn(whatkind,pos+(cos(angle)*10,sin(angle)*10,height*0.80),ALLOW_REPLACE);
 					rrr.angle=angle;rrr.A_ChangeVelocity(1,2,1,CVF_RELATIVE);
-				}else HDF.Give(self,"HDShellAmmo",1);
-			}else{
+				}
+			}else
+			{
 				A_TakeInventory("HDShellAmmo",1,TIF_NOTAKEINFINITE);
 				invoker.weaponstatus[TRMI_CHAMBER]=2;
 			}
@@ -317,10 +338,8 @@ class HDTerminatorSG:HDWeapon{
 		---- A 0{
 			invoker.weaponstatus[0]&=~TRMF_JUSTUNLOAD;
 			if(invoker.weaponstatus[TRMI_CHAMBER]>=1)setweaponstate("nope");
-			{
-				if(countinv("HDShellAmmo"))setweaponstate("loadchamber");
-				else setweaponstate("nope");
-			}
+			else if(countinv("HDShellAmmo"))setweaponstate("loadchamber");
+			else setweaponstate("nope");
 		}
 			goto nope;
 	spawn:
@@ -339,17 +358,11 @@ class HDTerminatorSG:HDWeapon{
 		else weaponstatus[TRMI_ALTPIN]=0;
 		weaponstatus[TRMI_CHAMBER]=2;
 	}
-	override void loadoutconfigure(string input){
-		int altpin=getloadoutvar(input,"altpin",1);
-//		if(!altpin){
-//			weaponstatus[0]&=~TRMI_ALTPIN;
-//			weaponstatus[TRMI_ALTPIN]==1;
-//		}else if(altpin>0){
-//			weaponstatus[0]|=TRMI_ALTPIN;
-//			weaponstatus[TRMI_ALTPIN]++;
-//			weaponstatus[TRMI_ALTPIN]++;
-//			weaponstatus[TRMI_ALTPIN]++;
-//			}
+	override void loadoutconfigure(string input)
+	{
+		int altpin = getloadoutvar(input,"altpin");
+		if(altpin>0)
+			weaponstatus[TRMI_ALTPIN] = 1;
 	}
 }
 
