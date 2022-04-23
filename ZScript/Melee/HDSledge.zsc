@@ -26,7 +26,8 @@ class HDSledgePuff:HDBulletPuff{
 		A_ChangeVelocity(-0.4,0,frandom(0.1,0.4),CVF_RELATIVE);
 		trymove(pos.xy+vel.xy,false);
 		int stm=stamina;
-		fadeafter=frandom(0,1);
+		// this doesn't actually do anything
+		//fadeafter=frandom(0,1);
 		scale*=frandom(0.9,1.1);
 		for(int i=0;i<stamina;i++){
 			A_SpawnParticle("gray",
@@ -218,7 +219,7 @@ class HDSledgehammer:HD_PB_UnarmedWeapon{
 			targethealth=0;
 		}
 	}
-	action void HDPunchSledge(int dmg){
+	action void HDPunchSledge(double dmg){
 		flinetracedata punchline;
 		bool punchy=linetrace(
 			angle,70,pitch,
@@ -338,7 +339,7 @@ class HDSledgehammer:HD_PB_UnarmedWeapon{
 		
 		//punchee.InStateSequence(curstate,resolvestate("falldown"));
 		
-		if(punchee.health>0)punchee.damagemobj(self,self,dmg,"SmallArms3");
+		if(punchee.health>0)punchee.damagemobj(self,self,int(dmg),"SmallArms3");
 		//else HDF.Give(punchee,"SawGib",dmg*0.2);
 		
 		LineAttack(angle,70,pitch,punchline.hitline?(countinv("HDZerk")?random(50,120):random(5,15)):0,"none",
