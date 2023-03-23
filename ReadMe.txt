@@ -48,7 +48,7 @@ Sounds = Valve
 Sprites = Chronoteeth, YukesVonFaust, Chopblock223, potetobloke
 Sounds = Black Widow Games (They Hunger)
 
----MG77 "Defender"---
+---AL72 "Defender"---
 Sprites = Chronoteeth, potetobloke
 Sounds are a carry over from the A180 (weapon manipulation only)
 

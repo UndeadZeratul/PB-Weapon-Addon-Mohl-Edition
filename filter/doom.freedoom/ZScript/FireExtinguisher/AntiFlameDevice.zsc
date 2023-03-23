@@ -360,11 +360,19 @@ class HDFireExtinguisher_Projectile:HDFireball{
 				TNT1 A 0{
 			A_Scream();
 			tracer=null;
-			if(blockingmobj){
-				if(blockingmobj is "Necromancer")blockingmobj.damagemobj(self,target,1000,"Bashing");
-				if(blockingmobj is "Putto")blockingmobj.damagemobj(self,target,1000,"Bashing");
-				//if(blockingmobj is "HDImpBall")blockingmobj.die(blockingmobj, blockingmobj);
-				}
+            if(!blockingmobj)return;
+            switch(blockingmobj.GetClassName()){
+                case 'Necromancer':
+                case 'Hatchling':
+                case 'FlyingSkull':
+                case 'Putto':
+                    blockingmobj.damagemobj(self,target,1000,"Bashing");
+                    break;
+
+                case 'HDImpBall':
+                    blockingmobj.die(blockingmobj, blockingmobj);
+                    break;
+            }
 			}
 		BAL1 FG 1;
 		stop;

@@ -1,4 +1,4 @@
-Model HDRiotShield
+/*Model HDRiotShield
 {
    Path "models/riotshield"
    Model 0 "shield.obj"
@@ -32,4 +32,4 @@ Model HDRiotShield_Permanent
    Offset 1 0 0
 
    Frame RSH0 z 0 "frame01"
-}
+}*/

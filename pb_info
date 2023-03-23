@@ -37,9 +37,9 @@ FIREARMS -
 	Handguns
 		-i dunno none that I know of
 
-### Chives Herstal
+### United Nations Arms Productions
 	
-	CH is a firearms manufacturer founded since 1889, and is mostly know for the AL7X series of rifles. They also own
+	UN-AP is a firearms manufacturer founded since 1889, and is mostly know for the AL7X series of rifles. They also own
 Arkoudi Civilian & Military Arms (since 1991) and Brownell Ordnance (Since 1905). They also have a counterpart in the US,
 Chives Texas (although they are only reproducing already existing firearms due to the Import Weapons ban).
 
@@ -59,7 +59,7 @@ FIREARMS -
 FIREARMS -
 
 	OTHER
-		-
+		-DX-2000 Electric Prod
 		-PS-451 Compact Frage Emission Weapon
 	
 
@@ -115,7 +115,7 @@ to cause some bleeding and can be used as a decent throwing weapon.
 
 		B. Handguns/Machine Pistols
 
-### SP-50 Auto Mag (Mega Class)
+### Arkoudi SP-50 Auto Mag (Mega Class)
 GZDoom actor name: `HDSMG`
 
 GZDoom ammo actor names: `HD9mMag30`, `HDPistolAmmo`
@@ -125,7 +125,7 @@ Default weapon slot: 2
 Loadout codes: `5ps`
 * selectfire - 0-1, standard variant/ "MP" variant
 
-The Chives Herstal SP-50 Auto Mag is a high-caliber handgun designed during the late 21st Century, as
+The Arkoudi SP-50 Auto Mag is a high-caliber handgun designed during the late 21st Century, as
 this was made to compete with other semi-automatic magnum handguns at the time.
 
 It differed from most of them due to it's heavy recoil reduction system and the ridiculous select-fire system
@@ -150,46 +150,46 @@ which can barely scratch armour. It makes up for it for it's mass amount of ammo
 and they're very light too.
 
 
-### Raycob Armanent Company RAC-13/9
+### Raycob Armanent Company RAC-10/45
 GZDoom actor name: `HDSMG`
 
 GZDoom ammo actor names: `HD9mMag30`, `HDPistolAmmo`
 
 Default weapon slot: 2
 
-Loadout codes: `m11`
+Loadout codes: `m10`
 
-The RAC-13/9 is a 9mm machine pistol designed (well, marketed rather) for professionals.
+The RAC-10/45 is a 9mm machine pistol designed (well, marketed rather) for professionals.
 (i will fill this in later)
 
 		D. Big Guns
 
-### Heckler & Mok HS776 SmartGun
+### Heckler & Mok HS76 SmartGun
 GZDoom actor name: `HDMicroGun`
 
-GZDoom ammo actor names: `HD9mMag30`, `HDPistolAmmo`
-
-Default weapon slot: 8
-
-Loadout codes: `sgn`
-
-The HS776 SmartGun is a Medium Machine Gun chambered in 7.76mm. This was designed to increase hit probability and lower ammunition
-usage in CQB. Based off of the MG3, (which was in turn, based off of the MG42) this MMG is designed to shred your
-targets. A bio detector is placed in front of the MG, which checks for a living creature within 11 meters. The detector will
-make a beeping noise when it detects an creature in front of it, allowing the user to fire. The implementation for this allows 
-for ammo conservation. Emplacement/mounted versions have a bio detector with ranges up to 500 meters, although these tend to be
-heavier and bulkier than the man porable version. There are rumors of this being deployed in the United States Space Force, although 
-it is unknown if they are true.
-
-Despite its heavy weight, it can still be carried by one man, although it is suggested that a separate squad member carries
-spare ammunition for the user of this weapon. Batteries are also not needed for this, as the battery consumption with this can
-almost last for 10 years until it needs changing.
-	
-### Arkoudi MS-AT 35mm "Kelenken"
+GZDoom ammo actor names:
 
 Default weapon slot: 7
 
-Loadout codes: `hwt`
+Loadout codes: `sgn`
+
+The HS76 SmartGun is a Medium Machine Gun chambered in 7.76mm. This was designed to increase hit probability and lower ammunition
+usage in CQB. Based off of the MG3, (which was in turn, based off of the MG42) this MMG is designed to shred your
+targets. An IFF system taken from the HERP is placed in front of the MG, where it checks for targets with the laser designator within 
+25 meters. The IFF will make a beeping noise when it detects a target in front of it, allowing the user to fire. The implementation 
+for this allows for ammo conservation in a CQB environment. Emplacement/mounted versions have an IFF system with detection ranges up to 1500 meters, 
+although these tend to be heavier and bulkier than the man porable version. There are rumors of this being deployed in the United States Space Force, 
+although it is unknown if they are true.
+
+Despite its heavy weight, it can still be carried by one man, although it is suggested that a separate squad member carries
+spare ammunition for the user of this weapon. Batteries don't need changing as the systems that need power 
+(ammo counter, IFF system, and laser pointer) do not take up too much energy and only need to be replaced every 3 years.
+	
+### MS-AT 35mm "Kelenken"
+
+Default weapon slot: 7
+
+Loadout codes: `hwz`
 
 The MS-AT 35mm "Kelenken" is an artillery weapon, designed as an emplacement gun put on vehicles and
 fortified areas designed for quickly taking down armoured vehicles. This was later modified as an 
@@ -199,6 +199,17 @@ The Kelenken has very little use, as you will least likely face multiple heavily
 
 
 		E. Other
+
+### UAC M93 "Roller" Toxic Gas Grenade 
+GZDoom actor name: ``
+
+Default weapon slot: 0
+
+Loadout codes: `tgg`
+
+A toxic gas agent that damages the victim's respiratory system. Pressure from the gas exiting 
+the grenade causes it to move around, allowing it to disperse more gas efficiently. A hazard suit 
+or a respirator can block it's effects.
 
 ### UAC Ballistic Shield
 GZDoom actor name: `HDRiotShield_Weapon`
@@ -217,3 +228,5 @@ It is guaranteed to not stop:
 	-Direct impact of explosives
 	-7.76mm rounds or greater
 	-some melee attacks (due to my bad coding)
+	
+	
