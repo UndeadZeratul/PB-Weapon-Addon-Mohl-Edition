@@ -54,7 +54,7 @@ version "4.6"
 #include "ZScript/Weapons/50AMPistol/MegaClass.zsc"
 
 //Chives Herstal MG77 "Defender" Light Support Weapon
-#include "ZScript/Weapons/FAL/FALRifleOld.zsc"
+#include "ZScript/Weapons/FAL/FALRifle.zsc"
 #include "ZScript/Weapons/FAL/FALAmmo.zsc"
 
 //PS-20
