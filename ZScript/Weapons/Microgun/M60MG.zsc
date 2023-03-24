@@ -63,7 +63,7 @@ class HD_M60Pig:HDWeapon{
 			sb.drawnum(hpl.countinv("HD_FALMag"),-43,-8,sb.DI_SCREEN_CENTER_BOTTOM,font.CR_BLACK);
 		}
 		sb.drawwepcounter(hdw.weaponstatus[FALG_AUTO],
-			-20,-12,"RBRSA3A7","STFULAUT"
+			-20,-12,"STSEMAUT","STFULAUT"
 		);
 		sb.drawwepnum(hdw.weaponstatus[FALG_MAG],100);
 

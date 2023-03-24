@@ -95,7 +95,7 @@ class HD_XM29OICW:HDWeapon{
 			sb.drawnum(hpl.countinv("HDColt9mmMag25"),-43,-8,sb.DI_SCREEN_CENTER_BOTTOM,font.CR_BLACK);
 		}
 		sb.drawwepcounter(hdw.weaponstatus[OICWS_AUTO],
-			-22,-10,"RBRSA3A7","STFULAUT","STFULAUT"
+			-22,-10,"STSEMAUT","STFULAUT","STFULAUT"
 		);
 		sb.drawwepnum(hdw.weaponstatus[OICWS_MAG],25);
 		if(hdw.weaponstatus[OICWS_CHAMBER]==2)sb.drawwepdot(-16,-10,(3,1));
