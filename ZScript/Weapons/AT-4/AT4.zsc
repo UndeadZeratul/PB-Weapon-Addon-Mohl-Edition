@@ -189,7 +189,7 @@ enum AT4status{
 	AT4S_HEAT=2,
 };
 
-class HDHEAT_AT4:GyroGrenade{
+class HDHEAT_AT4:RocketGrenade{
 	default{
 		+forcepain
 		scale 0.44; woundhealth 2800;

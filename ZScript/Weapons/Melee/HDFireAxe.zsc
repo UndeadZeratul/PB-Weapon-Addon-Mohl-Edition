@@ -344,7 +344,7 @@ class HDFireAxe:HD_PB_UnarmedWeapon{
 		A_Recoil(-3);
 	}
 	static void kick(actor kicker,actor kickee,actor kicking){
-		kickee.A_PlaySound("weapons/smack",CHAN_BODY);
+		kickee.A_StartSound("weapons/smack",CHAN_BODY);
 		bool kzk=kicker.countinv("HDZerk");
 		kickee.damagemobj(kicking,kicker,kzk?random(20,40):random(10,20),"bashing");
 		if(kickee&&!kickee.bnopain&&kickee.health>0&&random(0,4))kickee.setstatelabel("pain");

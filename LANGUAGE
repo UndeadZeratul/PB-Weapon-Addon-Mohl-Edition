@@ -1,0 +1,4 @@
+[enu default]
+
+// Tags should likely be put here also for translations and renames externally. - [Ted]
+PBWPS_MENU = "\c[Blue]Ⓟ\c- Potetobloke's Weapons Pack";

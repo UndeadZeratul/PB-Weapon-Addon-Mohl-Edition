@@ -1,19 +1,5 @@
 const HDLD_SMARTGUN="smr";
 
-class SmartGunDebugMarker : Actor {
-	Default{
-		+NOINTERACTION
-		+FORCEXYBILLBOARD
-		FloatBobPhase 0;
-	}
-	States{
-		Spawn:
-			MARK B -1;
-			Stop;
-	}
-}
-
-
 class HDMicrogun:HDWeapon{
 	default{
 		//$Category "Weapons/Hideous Destructor"
@@ -36,72 +22,26 @@ class HDMicrogun:HDWeapon{
 		tag "H&M HS76 SmartGun";
 		hdweapon.refid HDLD_SMARTGUN;
 	}
+	//dummying this out because this isnt a disposable weapon
+	/*override string pickupmessage(){ 
+		if(weaponstatus[MCRGS_AMMO]<1)return string.format("%s It is empty.",super.pickupmessage());
+		else return string.format("%s Fire it in short, controlled bursts!",super.pickupmessage());
+		return super.pickupmessage();
+	}
 	
-	SmartGunDebugMarker marker;
-	
-	Actor last_target;
-	
-	Array<Actor> targets;
-	
-	Vector3, bool doTrace(double x_a,double y_a){
-		FLineTraceData t;
-	    double zOffset = (height/2+HDPlayerPawn(self).attackZOffset) * player.crouchFactor;
-		vector3 shootpos=(0,0,zoffset);
-		let hdp=hdplayerpawn(self);
-		if(hdp){
-			shootpos=hdp.gunpos;
-		}
-		
-		owner.player.mo.linetrace(
-					hdp.gunangle,16384,hdp.gunpitch,
-					flags:TRF_NOSKY|TRF_ABSOFFSET,
-					offsetz:shootpos.z,
-					offsetforward:shootpos.x,
-					offsetside:shootpos.y,
-					data:t
+		override void DrawSightPicture(
+		HDStatusBar sb,HDWeapon hdw,HDPlayerPawn hpl,
+		bool sightbob,vector2 bob,double fov,bool scopeview,actor hpc,string whichdot
+	){
+		int scaledyoffset=47;
+			double dotoff=max(abs(bob.x),abs(bob.y));
+			if(dotoff<20){
+				sb.drawimage(
+					whichdot,(0,0)+bob*1.6,sb.DI_SCREEN_CENTER|sb.DI_ITEM_CENTER,
+					alpha:0.8-dotoff*0.04
 				);
-		
-		if(t.HitActor){
-			if(t.HitActor.bIsMonster && !t.HitActor.bFriendly){
-				int sz=targets.size();
-				for(int i=0;i<sz;i++){
-					if(targets[i]==t.HitActor){
-						return t.HitLocation, true;
-					}
-				}
-				targets.push(t.HitActor);
-				return t.HitLocation, true;
 			}
-		}
-		return t.HitLocation, false;
-	}
-	
-	void TraceVisible(double x_a,double y_a){
-	
-	    double zOffset = (height/2+HDPlayerPawn(self).attackZOffset) * player.crouchFactor;
-		vector3 shootpos=(0,0,zoffset);
-		let hdp=hdplayerpawn(self);
-		if(hdp){
-			shootpos=hdp.gunpos;
-		}
-        FLineTraceData trace;
-		double rtt=0.03*trace.distance;
-		double saf=1.;
-	
-		Vector3 hLoc;
-		bool hit_monster;
-		[hLoc, hit_monster] = doTrace(x_a, y_a);
-		
-		Vector3 diff=level.Vec3Diff((shootpos.x,shootpos.y,shootpos.z),hLoc);
-		let hLoc2=hLoc-(diff/diff.length());
-		marker.SetOrigin(hLoc2,false);
-		double dist=diff.length();
-		
-		Color enemy_color="#FF0000";
-		Color not_enemy_color="#00FF00";
-		
-		marker.A_SpawnParticle(hit_monster?enemy_color:not_enemy_color,SPF_FULLBRIGHT,1,clamp(dist/100,2.5,75));
-	}
+	}*/
 	
 	action void A_LaserSight() //man i am not touching this shit ever again
     {
@@ -111,11 +51,10 @@ class HDMicrogun:HDWeapon{
 		if(hdp){
 			shootpos=hdp.gunpos;
 		}
-		
         FLineTraceData trace;
 		double rtt=0.03*trace.distance;
 		double saf=1.;
-		
+	
 				linetrace(
 					hdp.gunangle,16384,hdp.gunpitch,
 					flags:TRF_NOSKY|TRF_ABSOFFSET,
@@ -163,7 +102,7 @@ class HDMicrogun:HDWeapon{
 					);
     }
 	
-	action void HDSmartGun_CheckTarget(){
+	action void HDSmartGun_CheckTarget(double x_a = 0,double y_a = 0){
 	
 		let hdp=HDPlayerPawn(self);
         FLineTraceData trace;
@@ -178,7 +117,7 @@ class HDMicrogun:HDWeapon{
 		double saf=1.;
 		
 		bool sgtarget=linetrace(
-			hdp.gunangle,800,hdp.gunpitch,
+			hdp.gunangle + x_a,800,hdp.gunpitch + y_a,
 			flags:TRF_NOSKY|TRF_ABSOFFSET,
 			offsetz:shootpos.z,
 			offsetforward:shootpos.x,
@@ -209,7 +148,21 @@ class HDMicrogun:HDWeapon{
 			&&sgtargetfound.health>random((sgtargetfound.vel==(0,0,0))?0:-10,5)
 			//&&sgtargetfound.checksight(self)
 		)setweaponstate("TargetFound",5);
+		
+		Vector3 laserOfs = trace.hitLocation-pos;
+		laserOfs-=trace.hitdir;
+		
+				a_spawnparticle(
+						"00 fb ff",SPF_FULLBRIGHT|SPF_RELVEL|SPF_NOTIMEFREEZE,
+						lifetime:4,frandom(7.9,8.4),0,
+						laserOfs.x,
+						laserOfs.y,
+						laserOfs.z,
+						startalphaf:0.5,0.1,-1.5
+					);
 	}
+	
+	
 	
 	static double Fire(actor caller,int choke=1){
 		double spread=6.;
@@ -244,65 +197,7 @@ class HDMicrogun:HDWeapon{
 	override void tick(){
 		super.tick();
 		drainheat(MCRGS_HEAT,12);
-		
-				targets.clear();
-		
-		if(marker){
-			marker.Destroy();
-		}
-		
-		marker=SmartGunDebugMarker(owner.Spawn("SmartGunDebugMarker",owner.pos,NO_REPLACE));
-		
-		[angle_offset, pos_offset] = HDPlayerPawn(self).shootpos;
-		
-		double x_a=31.5;
-		double m_x=16.5;
-		double y_a=16.5;
-		double m_y=7.5;
-		//corners
-		TraceVisible(x_a,y_a);
-		TraceVisible(-x_a,y_a);
-		TraceVisible(-x_a,-y_a);
-		TraceVisible(x_a,-y_a);
-		
-		//top
-		TraceVisible(m_x,-y_a);
-		TraceVisible(0,-y_a);
-		TraceVisible(-m_x,-y_a);
-		
-		//bottom
-		TraceVisible(m_x,y_a);
-		TraceVisible(0,y_a);
-		TraceVisible(-m_x,y_a);
-		
-		//left
-		TraceVisible(x_a,m_y);
-		TraceVisible(x_a,0);
-		TraceVisible(x_a,-m_y);
-		
-		//right
-		TraceVisible(-x_a,m_y);
-		TraceVisible(-x_a,0);
-		TraceVisible(-x_a,-m_y);
-		
-		int start_x=-30;
-		int end_x=31;
-		
-		int start_y=-15;
-		int end_y=16;
-		
-		int step=3;
-		
-		for(int x=start_x;x<end_x;x+=step){
-			for(int y=start_y;y<end_y;y+=step){
-				TraceVisible(x,y);
-			}
-		}
-		
-		marker.Destroy();
-		marker=null;
 	}
-	
 	override void postbeginplay(){
 		super.postbeginplay();
 	}
@@ -357,6 +252,8 @@ class HDMicrogun:HDWeapon{
 	states{
 	droop:
 		TNT1 A 1{
+		//if(hdplayerpawn(self)){hdplayerpawn(self).gunpos.z+=30;}
+		
 			if(pitch<frandom(5,8)&&(!gunbraced())){
 				if(countinv("IsMoving")>2 && countinv("PowerStrength")<1){    
 					A_MuzzleClimb(frandom(-0.2,0.2),
@@ -366,6 +263,36 @@ class HDMicrogun:HDWeapon{
 						frandom(0.1,clamp(1-pitch,0.06,0.12)));
 				}
 			}
+			
+					double x_a=31.5;
+		double m_x=16.5;
+		double y_a=16.5;
+		double m_y=7.5;
+		//corners
+		HDSmartGun_CheckTarget(x_a,y_a);
+		HDSmartGun_CheckTarget(-x_a,y_a);
+		HDSmartGun_CheckTarget(-x_a,-y_a);
+		HDSmartGun_CheckTarget(x_a,-y_a);
+		
+		//top
+		HDSmartGun_CheckTarget(m_x,-y_a);
+		HDSmartGun_CheckTarget(0,-y_a);
+		HDSmartGun_CheckTarget(-m_x,-y_a);
+		
+		//bottom
+		HDSmartGun_CheckTarget(m_x,y_a);
+		HDSmartGun_CheckTarget(0,y_a);
+		HDSmartGun_CheckTarget(-m_x,y_a);
+		
+		//left
+		HDSmartGun_CheckTarget(x_a,m_y);
+		HDSmartGun_CheckTarget(x_a,0);
+		HDSmartGun_CheckTarget(x_a,-m_y);
+		
+		//right
+		HDSmartGun_CheckTarget(-x_a,m_y);
+		HDSmartGun_CheckTarget(-x_a,0);
+		HDSmartGun_CheckTarget(-x_a,-m_y);
 		}loop;
 		
 	targetcheck:
@@ -373,6 +300,7 @@ class HDMicrogun:HDWeapon{
 		TNT1 A 1 
 		{
 			invoker.weaponstatus[MCRGS_TARGETFOUND]-=1;
+			if(hdplayerpawn(self)){hdplayerpawn(self).wepbob.x+=30;}
 		}
 		loop;
 	targetfound:

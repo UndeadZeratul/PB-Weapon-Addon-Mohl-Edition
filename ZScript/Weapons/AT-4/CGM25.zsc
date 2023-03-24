@@ -276,7 +276,7 @@ enum CGM25status{
 	CGMS_TARGETTER=5,
 };
 
-class HD_CGM25_Rocket:GyroGrenade{
+class HD_CGM25_Rocket:RocketGrenade{
 	default{
 		+forcepain
 		+seekermissile

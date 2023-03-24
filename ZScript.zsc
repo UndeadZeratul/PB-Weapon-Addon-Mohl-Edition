@@ -1,5 +1,8 @@
 version "4.6"
 
+// Main event handler for spawns - [Ted]
+#include "Zscript/Misc/SpawnHandler.zsc"
+
 //Main
 
 //Melee Weapons
@@ -111,8 +114,8 @@ version "4.6"
 #include "ZScript/Weapons/Kelenken/KelenkenBox.zsc"
 
 //Replacers
-#include "ZScript/Misc/ItemReplacer.zsc"
-#include "ZScript/Misc/ItemSpawns.zsc"
+//#include "ZScript/Misc/ItemReplacer.zsc"
+//#include "ZScript/Misc/ItemSpawns.zsc"
 //#include "ZScript/Misc/MysteryBox.zsc"
 //#include "ZScript/Weapons/GAU-19/GAU19.zsc"
 
@@ -130,4 +133,4 @@ class PB_PS451_Handler : EventHandler
 */
 
 // AmmoHandler
-#include "ZScript/Misc/AmmoHandler.zsc"
+//#include "ZScript/Misc/AmmoHandler.zsc"

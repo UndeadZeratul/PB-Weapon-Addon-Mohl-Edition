@@ -1,0 +1,215 @@
+// Most of these are server variables so in a multiplayer session they can be synced to other players.
+// Every weapon has a comment before its cvars based on its name in-game for organization. - [Ted]
+
+// NOTE: Values need to either be -1, 0, 2, 4, 9, 14, 19, 24, 49, 99, 149 or 199 to work for the spawners!
+// Anything else would require remaking the option values in the menus.
+// They'll still function in-game correctly, but the menus won't properly display them.
+// Stick to it please and have less bug reports to explain for pls. - [Ted]
+
+// --------------------
+// Weapons
+// --------------------
+
+// PS-20
+server int ps20_shell_spawn_bias = 4;
+server bool ps20_persistent_spawning = false;
+
+// Terminator
+server int termshot_shell_spawn_bias = 19;
+server bool termshot_persistent_spawning = false;
+
+// Combat Knife
+server int knife_shell_spawn_bias = 9;
+server bool knife_persistent_spawning = false;
+
+// Fire Axe
+server int axe_chainsaw_spawn_bias = 2;
+server bool axe_persistent_spawning = false;
+
+// Sledgehammer
+server int sledgehammer_chainsaw_spawn_bias = 4;
+server bool sledgehammer_persistent_spawning = false;
+
+// Kharon
+server int kharon_chainsaw_spawn_bias = 7;
+server bool kharon_persistent_spawning = false;
+
+// Ruger 10/22
+server int r1022_shellbox_spawn_bias = 14;
+server int r1022_clipbox_spawn_bias = 19;
+server bool r1022_persistent_spawning = false;
+
+// AT-4
+server int at4_shellbox_spawn_bias = 49;
+server int at4_clipbox_spawn_bias = 19;
+server int at4_rocketbox_spawn_bias = 9;
+server bool at4_persistent_spawning = false;
+
+// CGM-25
+server int cgm25_shellbox_spawn_bias = 24;
+server int cgm25_rocketbox_spawn_bias = 9;
+server bool cgm25_persistent_spawning = false;
+
+// White Phosphorous Grenade Pack
+server int phosgrenpack_shellbox_spawn_bias = 24;
+server int phosgrenpack_rocketbox_spawn_bias = 14;
+server int phosgrenpack_cellpack_spawn_bias = 19;
+server int phosgrenpack_fragpack_spawn_bias = 4;
+server bool phosgrenpack_persistent_spawning = false;
+
+// Gas Grenade Pack
+server int gasgrenpack_shellbox_spawn_bias = 24;
+server int gasgrenpack_rocketbox_spawn_bias = 14;
+server int gasgrenpack_cellpack_spawn_bias = 19;
+server int gasgrenpack_fragpack_spawn_bias = 4;
+server bool gasgrenpack_persistent_spawning = false;
+
+// White Phosphorous Grenades
+server int phosgren_helmfrag_spawn_bias = 14;
+server int phosgren_bluefrag_spawn_bias = 14;
+server int phosgren_fragammo_spawn_bias = 9;
+server bool phosgren_persistent_spawning = false;
+
+// Gas Grenades
+server int gasgren_helmfrag_spawn_bias = 14;
+server int gasgren_bluefrag_spawn_bias = 14;
+server int gasgren_fragammo_spawn_bias = 9;
+server bool gasgren_persistent_spawning = false;
+
+// .50 AM Automag
+server int automag_slayer_spawn_bias = 14;
+server int automag_hunter_spawn_bias = 19;
+server int automag_chaingun_spawn_bias = 19;
+server bool automag_persistent_spawning = false;
+
+// Street Sweeper
+server int sweeper_slayer_spawn_bias = 9;
+server bool sweeper_persistent_spawning = false;
+
+// Uragan-5
+server int uragan_slayer_spawn_bias = 9;
+server int uragan_hunter_spawn_bias = 4;
+server bool uragan_persistent_spawning = false;
+
+// Lever-Action
+server int levergat_slayer_spawn_bias = 14;
+server int levergat_hunter_spawn_bias = 9;
+server bool levergat_persistent_spawning = false;
+
+// PSG-1
+server int psg1_slayer_spawn_bias = 24;
+server int psg1_chaingun_spawn_bias = 14;
+server bool psg1_persistent_spawning = false;
+
+// MAC-10
+server int mac10_chaingun_spawn_bias = 9;
+server bool mac10_persistent_spawning = false;
+
+// Unscoped G11
+server int ig11_chaingun_spawn_bias = 9;
+server bool ig11_persistent_spawning = false;
+
+// Scoped G11
+server int sg11_chaingun_spawn_bias = 9;
+server bool sg11_persistent_spawning = false;
+
+// M5165
+server int m5165_chaingun_spawn_bias = 14;
+server bool m5165_persistent_spawning = false;
+
+// Colt .355
+server int c355_chaingun_spawn_bias = 9;
+server bool c355_persistent_spawning = false;
+
+// FN FAL
+server int fal_chaingun_spawn_bias = 24;
+server int fal_plasma_spawn_bias = 9;
+server bool fal_persistent_spawning = false;
+
+// Steyr ACR
+server int acr_chaingun_spawn_bias = 9;
+server int acr_plasma_spawn_bias = 14;
+server bool acr_persistent_spawning = false;
+
+// Devincenzia
+server int devin_plasma_spawn_bias = 9;
+server bool devin_persistent_spawning = false;
+
+// Kelenken
+server int kelen_bfg_spawn_bias = 9;
+server bool kelen_persistent_spawning = false;
+
+// Smartgun
+server int smartgun_bfg_spawn_bias = 9;
+server bool smartgun_persistent_spawning = false;
+
+// Deuce
+server int deuce_bfg_spawn_bias = 9;
+server bool deuce_persistent_spawning = false;
+
+// Railgun
+server int railgun_bfg_spawn_bias = 4;
+server bool railgun_persistent_spawning = false;
+
+// Fire Extinguisher
+server int extinguisher_clipmag_spawn_bias = 9;
+server bool extinguisher_persistent_spawning = false;
+
+// Mk. 23 SOCOM
+server int mk23_ammobox_spawn_bias = 9;
+server bool mk23_persistent_spawning = false;
+
+// Pistol Stuff
+server int pistols_handgun_spawn_bias = 4;
+server bool pistols_persistent_spawning = true;
+
+//------------
+// Ammunition
+//------------
+
+// Mk. 23 SOCOM Mag
+server int mk23_magazine_spawn_bias = 9;
+server bool mk23mag_persistent_spawning = false;
+
+// MAC-11 Mag
+server int mac11mag_magazine_spawn_bias = 9;
+server bool mac11mag_persistent_spawning = false;
+
+// .50 AM Mag
+server int mag50am_magazine_spawn_bias = 9;
+server int mag50am_shellbox_spawn_bias = 4;
+server bool mag50am_persistent_spawning = false;
+
+// M165 Magazine
+server int m165mag_magazine_spawn_bias = 9;
+server bool m165mag_persistent_spawning = false;
+
+// Steyr ACR Magazine
+server int acrmag_magazine_spawn_bias = 9;
+server int acrmag_cell_spawn_bias = 14;
+server bool acrmag_persistent_spawning = false;
+
+// 8mm EC
+server int ec8mm_rocketbox_spawn_bias = 14;
+server int ec8mm_cell_spawn_bias = 9;
+server int ec8mm_cellpack_spawn_bias = 9;
+server bool ec8mm_persistent_spawning = false;
+
+// G11 Magazine
+server int g11mag_magazine_spawn_bias = 4;
+server int g11mag_shellbox_spawn_bias = 9;
+server bool g11mag_persistent_spawning = false;
+
+// Colt .355 Magazine
+server int c35mag_ambox_spawn_bias = 9;
+server bool c35mag_persistent_spawning = false;
+
+// FN FAL Magazine
+server int falmag_cell_spawn_bias = 14;
+server int falmag_cellpack_spawn_bias = 9;
+server bool falmag_persistent_spawning = false;
+
+// PSG-1 Magazine
+server int psgmag_cell_spawn_bias = 4;
+server int psgmag_cellpack_spawn_bias = 9;
+server bool psgmag_persistent_spawning = false;

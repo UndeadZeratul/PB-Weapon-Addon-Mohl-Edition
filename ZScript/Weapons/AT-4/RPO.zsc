@@ -185,7 +185,7 @@ enum RPOstatus{
 	RPOS_HEAT=2,
 };
 
-class HDRocket_RPO:GyroGrenade{
+class HDRocket_RPO:RocketGrenade{
 	default{
 		+forcepain
 		scale 0.6; woundhealth 2800;
