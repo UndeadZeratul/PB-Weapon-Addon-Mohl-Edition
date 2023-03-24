@@ -4,6 +4,11 @@ AddOptionMenu "OptionsMenu"
     Submenu "$PBWPS_MENU", "PotetoblokeWeaponPack"
 }
 
+AddOptionMenu "HDAddonMenu"
+{
+    Submenu "$PBWPS_MENU", "PotetoblokeWeaponPack"
+}
+
 // The main option menu, handles sending the player to either the abyss 
 OptionMenu PotetoblokeWeaponPack
 {
