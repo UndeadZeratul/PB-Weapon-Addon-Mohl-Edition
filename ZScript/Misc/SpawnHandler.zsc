@@ -472,7 +472,7 @@ class PBWepsHandler : EventHandler
 		bool result = false;
 		if(giverandom(f.spawnreplaces[g].chance))
 		{
-            console.printf(f.spawnname);
+            if (hd_debug) { console.printf(f.spawnname); }
 			let spawnitem = Actor.Spawn(f.spawnname, e.thing.pos);
 			if(spawnitem)
 			{
