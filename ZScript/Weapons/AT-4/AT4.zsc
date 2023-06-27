@@ -330,8 +330,7 @@ class HD_Backblast:manjuice{
 				immolateradius:64,random(10,30),32
 			);
 			//A_SpawnChunks("HDSmokeChunk",random(2,4),6,20);
-			scalex*=1.1;
-			scaley*=1.1;
+			scale*=1.1;
 		}
 		MISL CD 1{
 		A_HDBlast(
@@ -340,8 +339,7 @@ class HD_Backblast:manjuice{
 			);
 			
 			vel.x+=1.5;
-			scalex*=1.1;
-			scaley*=1.1;
+			scale*=1.1;
 		}stop;
 	}
 }
