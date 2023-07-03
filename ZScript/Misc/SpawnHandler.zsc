@@ -225,7 +225,7 @@ class PBWepsHandler : EventHandler {
 		spawns_TermShotgun.push(additementry("ShellPickup", termshot_shell_spawn_bias));
 		spawns_TermShotgun.push(additementry("DecoPusher", termshot_shell_spawn_bias));
 		spawns_TermShotgun.push(additementry("ShellBoxPickup", termshot_shell_spawn_bias));
-		addItem("HDTerminatorSG", spawns_TermShotgun, termshot_persistent_spawning);
+		addItem("HDTerminatorSG", spawns_TermShotgun, termshot_persistent_spawning, false);
 
 		// Combat Knife
 		Array<PBSpawnItemEntry> spawns_knife;
@@ -253,7 +253,7 @@ class PBWepsHandler : EventHandler {
 		spawns_1022.push(additementry("ShellBoxPickup", r1022_shellbox_spawn_bias));
 		spawns_1022.push(additementry("HdAmBoxUnarmed", r1022_clipbox_spawn_bias));
 		spawns_1022.push(additementry("HdAmBox", r1022_clipbox_spawn_bias));
-		addItem("HD_Ruger1022", spawns_1022, r1022_persistent_spawning);
+		addItem("PB_Ruger1022Spawn", spawns_1022, r1022_persistent_spawning);
 
 		// AT-4
 		Array<PBSpawnItemEntry> spawns_at4;
@@ -305,7 +305,7 @@ class PBWepsHandler : EventHandler {
 		Array<PBSpawnItemEntry> spawns_automag;
 		spawns_automag.push(additementry("Slayer", automag_slayer_spawn_bias));
 		spawns_automag.push(additementry("Hunter", automag_hunter_spawn_bias));
-		addItem("HD_AutoMag", spawns_automag, automag_persistent_spawning);
+		addItem("PB_HDAutoMagSpawn_SA", spawns_automag, automag_persistent_spawning);
 
 		// .50 AM Automag FA
 		// FIXME: FA borked
@@ -324,7 +324,7 @@ class PBWepsHandler : EventHandler {
 		Array<PBSpawnItemEntry> spawns_uragan;
 		spawns_uragan.push(additementry("Slayer", uragan_slayer_spawn_bias));
 		spawns_uragan.push(additementry("Hunter", uragan_hunter_spawn_bias));
-		addItem("HDUragan5", spawns_uragan, uragan_persistent_spawning);
+		addItem("HD_Uragan5Spawn", spawns_uragan, uragan_persistent_spawning);
 
 		// Lever-Action
 		Array<PBSpawnItemEntry> spawns_levergat;
@@ -336,27 +336,27 @@ class PBWepsHandler : EventHandler {
 		Array<PBSpawnItemEntry> spawns_psg1;
 		spawns_psg1.push(additementry("Slayer", psg1_slayer_spawn_bias));
 		spawns_psg1.push(additementry("Vulcanette", psg1_chaingun_spawn_bias));
-		addItem("HD_PSG1", spawns_psg1, psg1_persistent_spawning);
+		addItem("PB_PSG1_Spawn", spawns_psg1, psg1_persistent_spawning);
 
 		// MAC-10
 		Array<PBSpawnItemEntry> spawns_mac10;
 		spawns_mac10.push(additementry("Vulcanette", mac10_chaingun_spawn_bias));
-		addItem("HDMAC10", spawns_mac10, mac10_persistent_spawning);
+		addItem("PB_MAC11Spawn", spawns_mac10, mac10_persistent_spawning);
 
 		// Unscoped G11
 		Array<PBSpawnItemEntry> spawns_ig11;
 		spawns_ig11.push(additementry("Vulcanette", ig11_chaingun_spawn_bias));
-		addItem("HDG11Rifle", spawns_ig11, ig11_persistent_spawning);
+		addItem("PB_G11Spawn_Normal", spawns_ig11, ig11_persistent_spawning);
 
 		// Scoped G11
 		Array<PBSpawnItemEntry> spawns_sg11;
 		spawns_sg11.push(additementry("Vulcanette", sg11_chaingun_spawn_bias));
-		addItem("HDG11Rifle_Scoped", spawns_sg11, sg11_persistent_spawning);
+		addItem("PB_G11Spawn_Scoped", spawns_sg11, sg11_persistent_spawning);
 
 		// M5165
 		Array<PBSpawnItemEntry> spawns_m5165;
 		spawns_m5165.push(additementry("Vulcanette", m5165_chaingun_spawn_bias));
-		addItem("HD_M5165", spawns_m5165, m5165_persistent_spawning);
+		addItem("PB_A180Spawn", spawns_m5165, m5165_persistent_spawning);
 
 		// Colt .355
 		Array<PBSpawnItemEntry> spawns_c355;
@@ -373,7 +373,7 @@ class PBWepsHandler : EventHandler {
 		Array<PBSpawnItemEntry> spawns_acr;
 		spawns_acr.push(additementry("Vulcanette", acr_chaingun_spawn_bias));
 		spawns_acr.push(additementry("LiberatorRifle", acr_plasma_spawn_bias));
-		addItem("HD_SteyrACR", spawns_acr, acr_persistent_spawning);
+		addItem("PB_SteyrACR_Spawn", spawns_acr, acr_persistent_spawning);
 
 		// Devincenzia
 		Array<PBSpawnItemEntry> spawns_devin;
@@ -383,22 +383,22 @@ class PBWepsHandler : EventHandler {
 		// Kelenken
 		Array<PBSpawnItemEntry> spawns_kelen;
 		spawns_kelen.push(additementry("BFG9K", kelen_bfg_spawn_bias));
-		addItem("HD_ATCKelenken", spawns_kelen, kelen_persistent_spawning);
+		addItem("PB_KelenkenSpawn", spawns_kelen, kelen_persistent_spawning);
 
 		// Smartgun
 		Array<PBSpawnItemEntry> spawns_smartgun;
 		spawns_smartgun.push(additementry("BFG9K", smartgun_bfg_spawn_bias));
-		addItem("HDMicrogun", spawns_smartgun, smartgun_persistent_spawning);
+		addItem("PB_SmartgunSpawn", spawns_smartgun, smartgun_persistent_spawning);
 
 		// Deuce
 		Array<PBSpawnItemEntry> spawns_deuce;
 		spawns_deuce.push(additementry("BFG9K", deuce_bfg_spawn_bias));
-		addItem("HD_M2HB", spawns_deuce, deuce_persistent_spawning);
+		addItem("PB_MaDeuceSpawn", spawns_deuce, deuce_persistent_spawning);
 
 		// Railgun
 		Array<PBSpawnItemEntry> spawns_railgun;
 		spawns_railgun.push(additementry("BFG9K", railgun_bfg_spawn_bias));
-		addItem("HDFortuneRailgun", spawns_railgun, railgun_persistent_spawning);
+		addItem("PB_RailGunSpawn", spawns_railgun, railgun_persistent_spawning);
 
 		// Fire extinguisher
 		Array<PBSpawnItemEntry> spawns_extinguisher;
@@ -409,7 +409,7 @@ class PBWepsHandler : EventHandler {
 		Array<PBSpawnItemEntry> spawns_socom;
 		spawns_socom.push(additementry("HdAmBoxUnarmed", mk23_ammobox_spawn_bias));
 		spawns_socom.push(additementry("HdAmBox", mk23_ammobox_spawn_bias));
-		addItem("HDMK23SOCOM", spawns_socom, mk23_persistent_spawning);
+		addItem("PB_MK23SOCOMSpawn", spawns_socom, mk23_persistent_spawning);
 
 		// Pistol Stuff
 		// FIXME: Not even sure what this spawns

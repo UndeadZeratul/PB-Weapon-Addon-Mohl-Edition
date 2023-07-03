@@ -70,12 +70,17 @@ class PB_G11Spawn_Scoped:IdleDummy{
 	}
 
 
-class PB_TerminatorSpawn:ShellBoxPickup{
-	override void postbeginplay(){
-		super.postbeginplay();
-		spawn("TerminatorRandom",pos,ALLOW_REPLACE);
+class PB_TerminatorSpawn:IdleDummy{
+	states{
+	spawn:
+		TNT1 A 0 nodelay{
+			let www=TerminatorRandom(spawn("TerminatorRandom",pos,ALLOW_REPLACE));
+			HDF.TransferSpecials(self,www,HDF.TS_ALL);
+
+				spawn("ShellBoxPickup",pos+(10,0,0),NO_REPLACE);
+			}stop;
+		}
 	}
-}
 
 class PB_MAC11Spawn:IdleDummy{
 	states{
