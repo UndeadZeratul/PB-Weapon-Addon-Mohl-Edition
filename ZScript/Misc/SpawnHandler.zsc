@@ -1,5 +1,6 @@
 // Struct for itemspawn information.
 class PBSpawnItem play {
+
 	// ID by string for spawner
 	string spawnName;
 	
@@ -15,19 +16,17 @@ class PBSpawnItem play {
 	string toString() {
 
 		let replacements = "[";
-		if (spawnReplaces.size()) {
-			replacements = replacements..spawnReplaces[0].toString();
 
-			foreach (spawnReplace : spawnReplaces) replacements = replacements..", "..spawnReplace.toString();
-		}
+		foreach (spawnReplace : spawnReplaces) replacements = replacements..", "..spawnReplace.toString();
+
 		replacements = replacements.."]";
-
 
 		return String.format("{ spawnName=%s, spawnReplaces=%s, isPersistent=%b, replaceItem=%b }", spawnName, replacements, isPersistent, replaceItem);
 	}
 }
 
 class PBSpawnItemEntry play {
+
 	string name;
 	int    chance;
 
@@ -38,6 +37,7 @@ class PBSpawnItemEntry play {
 
 // Struct for passing useinformation to ammunition.
 class PBSpawnAmmo play {
+
 	// ID by string for the header ammo.
 	string ammoName;
 	
@@ -47,11 +47,9 @@ class PBSpawnAmmo play {
 	string toString() {
 
 		let weapons = "[";
-		if (weaponNames.size()) {
-			weapons = weapons..weaponNames[0];
+		
+		foreach (weaponName : weaponNames) weapons = weapons..", "..weaponName;
 
-			foreach (weaponName : weaponNames) weapons = weapons..", "..weaponName;
-		}
 		weapons = weapons.."]";
 
 		return String.format("{ ammoName=%s, weaponNames=%s }", ammoName, weapons);
@@ -66,21 +64,27 @@ class PBWepsHandler : EventHandler {
 	// List of persistent classes to completely ignore.
 	// This -should- mean this mod has no performance impact.
 	static const string blacklist[] = {
-		"HDSmoke",
-		"BloodTrail",
-		"CheckPuff",
-		"WallChunk",
-		"HDBulletPuff",
-		"HDFireballTail",
-		"ReverseImpBallTail",
-		"HDSmokeChunk",
-		"ShieldSpark",
-		"HDFlameRed",
-		"HDMasterBlood",
-		"PlantBit",
-		"HDBulletActor",
-		"HDLadderSection"
+		'HDSmoke',
+		'BloodTrail',
+		'CheckPuff',
+		'WallChunk',
+		'HDBulletPuff',
+		'HDFireballTail',
+		'ReverseImpBallTail',
+		'HDSmokeChunk',
+		'ShieldSpark',
+		'HDFlameRed',
+		'HDMasterBlood',
+		'PlantBit',
+		'HDBulletActor',
+		'HDLadderSection'
 	};
+
+	// List of CVARs for Backpack Spawns
+	array<Class <Inventory> > backpackBlacklist;
+
+    // Cache of Ammo Box Loot Table
+    private HDAmBoxList ammoBoxList;
 
 	// List of weapon-ammo associations.
 	// Used for ammo-use association on ammo spawn (happens very often).
@@ -96,9 +100,10 @@ class PBWepsHandler : EventHandler {
 	void addItem(string name, Array<PBSpawnItemEntry> replacees, bool persists, bool rep=true) {
 
 		if (hd_debug) {
-			let msg = "Adding "..(persists ? "Persistent" : "Non-Persistent").." Replacement Entry for "..name..": ["..replacees[0].toString();
 
-			if (replacees.size() > 1) foreach (replacee : replacees) msg = msg..", "..replacee.toString();
+			let msg = "Adding "..(persists ? "Persistent" : "Non-Persistent").." Replacement Entry for "..name..": [";
+
+			foreach (replacee : replacees) msg = msg..", "..replacee.toString();
 
 			console.printf(msg.."]");
 		}
@@ -110,17 +115,17 @@ class PBWepsHandler : EventHandler {
 		spawnee.spawnName = name;
 		spawnee.isPersistent = persists;
 		spawnee.replaceItem = rep;
-
-		foreach (replacee : replacees) spawnee.spawnReplaces.push(replacee);
+		spawnee.spawnReplaces.copy(replacees);
 
 		// Pushes the finished struct to the array.
 		itemSpawnList.push(spawnee);
 	}
 
 	PBSpawnItemEntry additementry(string name, int chance) {
+
 		// Creates a new struct;
 		PBSpawnItemEntry spawnee = PBSpawnItemEntry(new('PBSpawnItemEntry'));
-		spawnee.name = name.makeLower();
+		spawnee.name = name;
 		spawnee.chance = chance;
 		return spawnee;
 	}
@@ -128,12 +133,18 @@ class PBWepsHandler : EventHandler {
 	// appends an entry to ammoSpawnList;
 	void addAmmo(string name, Array<string> weapons) {
 
+        if (hd_debug) {
+            let msg = "Adding Ammo Association Entry for "..name..": [";
+
+            foreach (weapon : weapons) msg = msg..", "..weapon;
+
+            console.printf(msg.."]");
+        }
+
 		// Creates a new struct;
 		PBSpawnAmmo spawnee = PBSpawnAmmo(new('PBSpawnAmmo'));
-		spawnee.ammoName = name.makeLower();
-
-		// Populates the struct with relevant information,
-		foreach (weapon : weapons) spawnee.weaponNames.push(weapon.makeLower());
+		spawnee.ammoName = name;
+		spawnee.weaponNames.copy(weapons);
 
 		// Pushes the finished struct to the array.
 		ammoSpawnList.push(spawnee);
@@ -144,6 +155,31 @@ class PBWepsHandler : EventHandler {
 	void init() {
 
 		cvarsAvailable = true;
+		
+		//-----------------
+		// Backpack Spawns
+		//-----------------
+
+        // if (!blackhawk_allowBackpacks)         backpackBlacklist.push((Class<Inventory>)('HDBlackhawk'));
+        // if (!blackjack_allowBackpacks)         backpackBlacklist.push((Class<Inventory>)('HDBlackjack'));
+        // if (!gungnir_allowBackpacks)           backpackBlacklist.push((Class<Inventory>)('HDGungnir'));
+        // if (!hammerhead_allowBackpacks)        backpackBlacklist.push((Class<Inventory>)('HDHammerhead'));
+        // if (!jackdaw_allowBackpacks)           backpackBlacklist.push((Class<Inventory>)('HDJackdaw'));
+        // if (!majestic_allowBackpacks)          backpackBlacklist.push((Class<Inventory>)('HDMajestic'));
+        // if (!redline_allowBackpacks)           backpackBlacklist.push((Class<Inventory>)('HDRedline'));
+        // if (!scorpion_allowBackpacks)          backpackBlacklist.push((Class<Inventory>)('HDScorpion'));
+        // if (!viper_allowBackpacks)             backpackBlacklist.push((Class<Inventory>)('HDViper'));
+        // if (!wyvern_allowBackpacks)            backpackBlacklist.push((Class<Inventory>)('HDWyvern'));
+		
+        // if (!blackhawkBolts_allowBackpacks)    backpackBlacklist.push((Class<Inventory>)('HDBlackhawkBoltRegular'));
+        // if (!blackhawkBolts_allowBackpacks)    backpackBlacklist.push((Class<Inventory>)('HDBlackhawkBoltIncendiary'));
+        // if (!blackhawkBolts_allowBackpacks)    backpackBlacklist.push((Class<Inventory>)('HDBlackhawkBoltElectric'));
+        // if (!blackhawkBolts_allowBackpacks)    backpackBlacklist.push((Class<Inventory>)('HDBlackhawkBoltNuclear'));
+        // if (!blackjack355mag_allowBackpacks)   backpackBlacklist.push((Class<Inventory>)('HDBlackjackMag355'));
+        // if (!blackjackshellmag_allowBackpacks) backpackBlacklist.push((Class<Inventory>)('HDBlackjackMagShells'));
+        // if (!majesticmag_allowBackpacks)       backpackBlacklist.push((Class<Inventory>)('HDMajesticMag'));
+        // if (!vipermag_allowBackpacks)          backpackBlacklist.push((Class<Inventory>)('HDViperMag'));
+
 
 		//------------
 		// Ammunition
@@ -151,62 +187,62 @@ class PBWepsHandler : EventHandler {
 
 		// 5mm
 		Array<string> wep_5mm;
-		wep_5mm.push("HD_M5165");
-		wep_5mm.push("HD_Ruger1022");
-		addAmmo("HD5mm_Ammo", wep_5mm);
+		wep_5mm.push('HD_M5165');
+		wep_5mm.push('HD_Ruger1022');
+		addAmmo('HD5mm_Ammo', wep_5mm);
 
 		// 6mm Flechettes.
 		Array<string> wep_6mm;
-		wep_6mm.push("HD_SteyrACR");
-		addAmmo("HD6mmFlechetteAmmo", wep_6mm);
+		wep_6mm.push('HD_SteyrACR');
+		addAmmo('HD6mmFlechetteAmmo', wep_6mm);
 
 		// .50 Action Mega
 		Array<string> wep_50am;
-		wep_50am.push("HD_AutoMag");
-		wep_50am.push("HDLeverGun");
-		addAmmo("HD50AM_Ammo", wep_50am);
+		wep_50am.push('HD_AutoMag');
+		wep_50am.push('HDLeverGun');
+		addAmmo('HD50AM_Ammo', wep_50am);
 
 		// 12 gauge Buckshot Ammo.
 		Array<string> wep_12ga;
-		wep_12ga.push("HDUragan5");
-		wep_12ga.push("HDStreetSweeper");
-		wep_12ga.push("HDTerminatorSG");
-		addAmmo("HDShellAmmo", wep_12ga);
+		wep_12ga.push('HDUragan5');
+		wep_12ga.push('HDStreetSweeper');
+		wep_12ga.push('HDTerminatorSG');
+		addAmmo('HDShellAmmo', wep_12ga);
 
 		// 4mm
 		Array<string> wep_4mmvolt;
-		wep_4mmvolt.push("HDG11Rifle");
-		wep_4mmvolt.push("HDG11Rifle_Scoped");
-		addAmmo("FourMilAmmo", wep_4mmvolt);
+		wep_4mmvolt.push('HDG11Rifle');
+		wep_4mmvolt.push('HDG11Rifle_Scoped');
+		addAmmo('FourMilAmmo', wep_4mmvolt);
 
 		// .45 ACP
 		Array<string> wep_45acp;
-		wep_45acp.push("HDMAC10");
-		wep_45acp.push("HDMK23SOCOM");
-		addAmmo("HD45ACPAmmo", wep_45acp);
+		wep_45acp.push('HDMAC10');
+		wep_45acp.push('HDMK23SOCOM');
+		addAmmo('HD45ACPAmmo', wep_45acp);
 
 		// .355
 		Array<string> wep_355;
-		wep_355.push("HDColt355");
-		addAmmo("HDRevolverAmmo", wep_355);
+		wep_355.push('HDColt355');
+		addAmmo('HDRevolverAmmo', wep_355);
 
 		// 35mm
 		Array<string> wep_35mm;
-		wep_35mm.push("HD_ATCKelenken");
-		wep_35mm.push("HD_ATCDevincenzia");
-		addAmmo("BrontornisRound", wep_35mm);
+		wep_35mm.push('HD_ATCKelenken');
+		wep_35mm.push('HD_ATCDevincenzia');
+		addAmmo('BrontornisRound', wep_35mm);
 
 		// 7mm
 		Array<string> wep_7mm;
-		wep_7mm.push("HD_FNFAL");
-		wep_7mm.push("HD_PSG1");
-		wep_7mm.push("HDMicrogun");
-		addAmmo("SevenMilAmmo", wep_7mm);
+		wep_7mm.push('HD_FNFAL');
+		wep_7mm.push('HD_PSG1');
+		wep_7mm.push('HDMicrogun');
+		addAmmo('SevenMilAmmo', wep_7mm);
 
 		// .50 OMG
 		Array<string> wep_OMG;
-		wep_OMG.push("HD_M2HB");
-		addAmmo("HD50OMGAmmo", wep_OMG);
+		wep_OMG.push('HD_M2HB');
+		addAmmo('HD50OMGAmmo', wep_OMG);
 
 		//------------
 		// Weaponry
@@ -215,207 +251,207 @@ class PBWepsHandler : EventHandler {
 
 		// PS-20
 		Array<PBSpawnItemEntry> spawns_PS20;
-		spawns_PS20.push(additementry("ShellPickup", ps20_shell_spawn_bias));
-		spawns_PS20.push(additementry("DecoPusher", ps20_shell_spawn_bias));
-		spawns_PS20.push(additementry("HDFragGrenadeAmmo", ps20_shell_spawn_bias));
-		addItem("HDPS20", spawns_PS20, ps20_persistent_spawning);
+		spawns_PS20.push(additementry('ShellPickup', ps20_shell_spawn_bias));
+		spawns_PS20.push(additementry('DecoPusher', ps20_shell_spawn_bias));
+		spawns_PS20.push(additementry('HDFragGrenadeAmmo', ps20_shell_spawn_bias));
+		addItem('HDPS20', spawns_PS20, ps20_persistent_spawning);
 
 		// Terminator
 		Array<PBSpawnItemEntry> spawns_TermShotgun;
-		spawns_TermShotgun.push(additementry("ShellPickup", termshot_shell_spawn_bias));
-		spawns_TermShotgun.push(additementry("DecoPusher", termshot_shell_spawn_bias));
-		spawns_TermShotgun.push(additementry("ShellBoxPickup", termshot_shell_spawn_bias));
-		addItem("HDTerminatorSG", spawns_TermShotgun, termshot_persistent_spawning, false);
+		spawns_TermShotgun.push(additementry('ShellPickup', termshot_shell_spawn_bias));
+		spawns_TermShotgun.push(additementry('DecoPusher', termshot_shell_spawn_bias));
+		spawns_TermShotgun.push(additementry('ShellBoxPickup', termshot_shell_spawn_bias));
+		addItem('HDTerminatorSG', spawns_TermShotgun, termshot_persistent_spawning, false);
 
 		// Combat Knife
 		Array<PBSpawnItemEntry> spawns_knife;
-		spawns_knife.push(additementry("ShellPickup", knife_shell_spawn_bias));
-		spawns_knife.push(additementry("HD4mMag", knife_shell_spawn_bias));
-		addItem("HDCombatKnife", spawns_knife, knife_persistent_spawning);
+		spawns_knife.push(additementry('ShellPickup', knife_shell_spawn_bias));
+		spawns_knife.push(additementry('HD4mMag', knife_shell_spawn_bias));
+		addItem('HDCombatKnife', spawns_knife, knife_persistent_spawning);
 
 		// Fire Axe
 		Array<PBSpawnItemEntry> spawns_axe;
-		spawns_axe.push(additementry("Lumberjack", axe_chainsaw_spawn_bias));
-		addItem("HDFireAxe", spawns_axe, axe_persistent_spawning);
+		spawns_axe.push(additementry('Lumberjack', axe_chainsaw_spawn_bias));
+		addItem('HDFireAxe', spawns_axe, axe_persistent_spawning);
 
 		// Sledgehammer
 		Array<PBSpawnItemEntry> spawns_sledge;
-		spawns_sledge.push(additementry("Lumberjack", sledgehammer_chainsaw_spawn_bias));
-		addItem("HDSledgehammer", spawns_sledge, sledgehammer_persistent_spawning);
+		spawns_sledge.push(additementry('Lumberjack', sledgehammer_chainsaw_spawn_bias));
+		addItem('HDSledgehammer', spawns_sledge, sledgehammer_persistent_spawning);
 
 		// Kharon
 		Array<PBSpawnItemEntry> spawns_kharon;
-		spawns_kharon.push(additementry("Lumberjack", kharon_chainsaw_spawn_bias));
-		addItem("HDKharon", spawns_kharon, kharon_persistent_spawning);
+		spawns_kharon.push(additementry('Lumberjack', kharon_chainsaw_spawn_bias));
+		addItem('HDKharon', spawns_kharon, kharon_persistent_spawning);
 
 		// Ruger 10/22
 		Array<PBSpawnItemEntry> spawns_1022;
-		spawns_1022.push(additementry("ShellBoxPickup", r1022_shellbox_spawn_bias));
-		spawns_1022.push(additementry("HdAmBoxUnarmed", r1022_clipbox_spawn_bias));
-		spawns_1022.push(additementry("HdAmBox", r1022_clipbox_spawn_bias));
-		addItem("PB_Ruger1022Spawn", spawns_1022, r1022_persistent_spawning);
+		spawns_1022.push(additementry('ShellBoxPickup', r1022_shellbox_spawn_bias));
+		spawns_1022.push(additementry('HdAmBoxUnarmed', r1022_clipbox_spawn_bias));
+		spawns_1022.push(additementry('HdAmBox', r1022_clipbox_spawn_bias));
+		addItem('PB_Ruger1022Spawn', spawns_1022, r1022_persistent_spawning);
 
 		// AT-4
 		Array<PBSpawnItemEntry> spawns_at4;
-		spawns_at4.push(additementry("ShellBoxPickup", at4_shellbox_spawn_bias));
-		spawns_at4.push(additementry("HdAmBoxUnarmed", at4_clipbox_spawn_bias));
-		spawns_at4.push(additementry("HdAmBox", at4_clipbox_spawn_bias));
-		spawns_at4.push(additementry("RocketBigPickup", at4_rocketbox_spawn_bias));
-		addItem("HDAT4_WEP", spawns_at4, at4_persistent_spawning);
+		spawns_at4.push(additementry('ShellBoxPickup', at4_shellbox_spawn_bias));
+		spawns_at4.push(additementry('HdAmBoxUnarmed', at4_clipbox_spawn_bias));
+		spawns_at4.push(additementry('HdAmBox', at4_clipbox_spawn_bias));
+		spawns_at4.push(additementry('RocketBigPickup', at4_rocketbox_spawn_bias));
+		addItem('HDAT4_WEP', spawns_at4, at4_persistent_spawning);
 
 		// CGM-25
 		Array<PBSpawnItemEntry> spawns_cgm25;
-		spawns_cgm25.push(additementry("ShellBoxPickup", cgm25_shellbox_spawn_bias));
-		spawns_cgm25.push(additementry("RocketBigPickup", cgm25_rocketbox_spawn_bias));
-		addItem("HDCGM25_WEP", spawns_cgm25, cgm25_persistent_spawning);
+		spawns_cgm25.push(additementry('ShellBoxPickup', cgm25_shellbox_spawn_bias));
+		spawns_cgm25.push(additementry('RocketBigPickup', cgm25_rocketbox_spawn_bias));
+		addItem('HDCGM25_WEP', spawns_cgm25, cgm25_persistent_spawning);
 
 		// White Phosphorous Grenades Pack
 		Array<PBSpawnItemEntry> spawns_phosgrenpack;
-		spawns_phosgrenpack.push(additementry("ShellBoxPickup", phosgrenpack_shellbox_spawn_bias));
-		spawns_phosgrenpack.push(additementry("RocketBigPickup", phosgrenpack_rocketbox_spawn_bias));
-		spawns_phosgrenpack.push(additementry("HD7mMag", phosgrenpack_cellpack_spawn_bias));
-		spawns_phosgrenpack.push(additementry("HDFragGrenadePickup", phosgrenpack_fragpack_spawn_bias));
-		addItem("HDGasGrenadeAmmo", spawns_phosgrenpack, phosgrenpack_persistent_spawning);
+		spawns_phosgrenpack.push(additementry('ShellBoxPickup', phosgrenpack_shellbox_spawn_bias));
+		spawns_phosgrenpack.push(additementry('RocketBigPickup', phosgrenpack_rocketbox_spawn_bias));
+		spawns_phosgrenpack.push(additementry('HD7mMag', phosgrenpack_cellpack_spawn_bias));
+		spawns_phosgrenpack.push(additementry('HDFragGrenadePickup', phosgrenpack_fragpack_spawn_bias));
+		addItem('HDGasGrenadeAmmo', spawns_phosgrenpack, phosgrenpack_persistent_spawning);
 
 		// Gas Grenades Pack
 		// FIXME: 6pack borked
 		/*Array<PBSpawnItemEntry> spawns_gasgrenpack;
-		spawns_gasgrenpack.push(additementry("ShellBoxPickup", gasgrenpack_shellbox_spawn_bias));
-		spawns_gasgrenpack.push(additementry("RocketBigPickup", gasgrenpack_rocketbox_spawn_bias));
-		spawns_gasgrenpack.push(additementry("HD7mMag", gasgrenpack_cellpack_spawn_bias));
-		spawns_phosgrenpack.push(additementry("HDFragGrenadePickup", gasgrenpack_fragpack_spawn_bias));
-		addItem("HDGasGrenadePickup", spawns_gasgrenpack, gasgrenpack_persistent_spawning);*/
+		spawns_gasgrenpack.push(additementry('ShellBoxPickup', gasgrenpack_shellbox_spawn_bias));
+		spawns_gasgrenpack.push(additementry('RocketBigPickup', gasgrenpack_rocketbox_spawn_bias));
+		spawns_gasgrenpack.push(additementry('HD7mMag', gasgrenpack_cellpack_spawn_bias));
+		spawns_phosgrenpack.push(additementry('HDFragGrenadePickup', gasgrenpack_fragpack_spawn_bias));
+		addItem('HDGasGrenadePickup', spawns_gasgrenpack, gasgrenpack_persistent_spawning);*/
 
 		// White Phosphorous Grenades
 		Array<PBSpawnItemEntry> spawns_phosgren;
-		spawns_phosgren.push(additementry("DecoPusher", phosgren_helmfrag_spawn_bias));
-		spawns_phosgren.push(additementry("DecoPusher", phosgren_bluefrag_spawn_bias));
-		spawns_phosgren.push(additementry("HDFragGrenadeAmmo", phosgren_fragammo_spawn_bias));
-		addItem("HDWilliePeteGrenadeAmmo", spawns_phosgren, phosgren_persistent_spawning);
+		spawns_phosgren.push(additementry('DecoPusher', phosgren_helmfrag_spawn_bias));
+		spawns_phosgren.push(additementry('DecoPusher', phosgren_bluefrag_spawn_bias));
+		spawns_phosgren.push(additementry('HDFragGrenadeAmmo', phosgren_fragammo_spawn_bias));
+		addItem('HDWilliePeteGrenadeAmmo', spawns_phosgren, phosgren_persistent_spawning);
 
 		// WP Grenades
 		// FIXME: 6pack borked
 		/*Array<PBSpawnItemEntry> spawns_gasgren;
-		spawns_gasgren.push(additementry("DecoPusher", gasgren_helmfrag_spawn_bias));
-		spawns_gasgren.push(additementry("DecoPusher", gasgren_bluefrag_spawn_bias));
-		spawns_gasgren.push(additementry("HDFragGrenadeAmmo", gasgren_fragammo_spawn_bias));
-		addItem("HDGasGrenadeP", spawns_gasgren, gasgren_persistent_spawning);*/
+		spawns_gasgren.push(additementry('DecoPusher', gasgren_helmfrag_spawn_bias));
+		spawns_gasgren.push(additementry('DecoPusher', gasgren_bluefrag_spawn_bias));
+		spawns_gasgren.push(additementry('HDFragGrenadeAmmo', gasgren_fragammo_spawn_bias));
+		addItem('HDGasGrenadeP', spawns_gasgren, gasgren_persistent_spawning);*/
 
 		// .50 AM Automag SA
 		Array<PBSpawnItemEntry> spawns_automag;
-		spawns_automag.push(additementry("Slayer", automag_slayer_spawn_bias));
-		spawns_automag.push(additementry("Hunter", automag_hunter_spawn_bias));
-		addItem("PB_HDAutoMagSpawn_SA", spawns_automag, automag_persistent_spawning);
+		spawns_automag.push(additementry('Slayer', automag_slayer_spawn_bias));
+		spawns_automag.push(additementry('Hunter', automag_hunter_spawn_bias));
+		addItem('PB_HDAutoMagSpawn_SA', spawns_automag, automag_persistent_spawning);
 
 		// .50 AM Automag FA
 		// FIXME: FA borked
 		/*Array<PBSpawnItemEntry> spawns_automag2;
-		spawns_automag2.push(additementry("Slayer", automag_slayer_spawn_bias));
-		spawns_automag2.push(additementry("Hunter", automag_hunter_spawn_bias));
-		spawns_automag2.push(additementry("Vulcanette", automag_chaingun_spawn_bias));
-		addItem("PB_HDAutoMagSpawn_FA", spawns_automag2, automag_persistent_spawning);*/
+		spawns_automag2.push(additementry('Slayer', automag_slayer_spawn_bias));
+		spawns_automag2.push(additementry('Hunter', automag_hunter_spawn_bias));
+		spawns_automag2.push(additementry('Vulcanette', automag_chaingun_spawn_bias));
+		addItem('PB_HDAutoMagSpawn_FA', spawns_automag2, automag_persistent_spawning);*/
 
 		// Street Sweeper
 		Array<PBSpawnItemEntry> spawns_sweeper;
-		spawns_sweeper.push(additementry("Slayer", sweeper_slayer_spawn_bias));
-		addItem("HDStreetSweeper", spawns_sweeper, sweeper_persistent_spawning);
+		spawns_sweeper.push(additementry('Slayer', sweeper_slayer_spawn_bias));
+		addItem('HDStreetSweeper', spawns_sweeper, sweeper_persistent_spawning);
 
 		// Uragan-5
 		Array<PBSpawnItemEntry> spawns_uragan;
-		spawns_uragan.push(additementry("Slayer", uragan_slayer_spawn_bias));
-		spawns_uragan.push(additementry("Hunter", uragan_hunter_spawn_bias));
-		addItem("HD_Uragan5Spawn", spawns_uragan, uragan_persistent_spawning);
+		spawns_uragan.push(additementry('Slayer', uragan_slayer_spawn_bias));
+		spawns_uragan.push(additementry('Hunter', uragan_hunter_spawn_bias));
+		addItem('HD_Uragan5Spawn', spawns_uragan, uragan_persistent_spawning);
 
 		// Lever-Action
 		Array<PBSpawnItemEntry> spawns_levergat;
-		spawns_levergat.push(additementry("Slayer", levergat_slayer_spawn_bias));
-		spawns_levergat.push(additementry("Hunter", levergat_hunter_spawn_bias));
-		addItem("HDLeverGun", spawns_levergat, levergat_persistent_spawning);
+		spawns_levergat.push(additementry('Slayer', levergat_slayer_spawn_bias));
+		spawns_levergat.push(additementry('Hunter', levergat_hunter_spawn_bias));
+		addItem('HDLeverGun', spawns_levergat, levergat_persistent_spawning);
 
 		// PSG-1
 		Array<PBSpawnItemEntry> spawns_psg1;
-		spawns_psg1.push(additementry("Slayer", psg1_slayer_spawn_bias));
-		spawns_psg1.push(additementry("Vulcanette", psg1_chaingun_spawn_bias));
-		addItem("PB_PSG1_Spawn", spawns_psg1, psg1_persistent_spawning);
+		spawns_psg1.push(additementry('Slayer', psg1_slayer_spawn_bias));
+		spawns_psg1.push(additementry('Vulcanette', psg1_chaingun_spawn_bias));
+		addItem('PB_PSG1_Spawn', spawns_psg1, psg1_persistent_spawning);
 
 		// MAC-10
 		Array<PBSpawnItemEntry> spawns_mac10;
-		spawns_mac10.push(additementry("Vulcanette", mac10_chaingun_spawn_bias));
-		addItem("PB_MAC11Spawn", spawns_mac10, mac10_persistent_spawning);
+		spawns_mac10.push(additementry('Vulcanette', mac10_chaingun_spawn_bias));
+		addItem('PB_MAC11Spawn', spawns_mac10, mac10_persistent_spawning);
 
 		// Unscoped G11
 		Array<PBSpawnItemEntry> spawns_ig11;
-		spawns_ig11.push(additementry("Vulcanette", ig11_chaingun_spawn_bias));
-		addItem("PB_G11Spawn_Normal", spawns_ig11, ig11_persistent_spawning);
+		spawns_ig11.push(additementry('Vulcanette', ig11_chaingun_spawn_bias));
+		addItem('PB_G11Spawn_Normal', spawns_ig11, ig11_persistent_spawning);
 
 		// Scoped G11
 		Array<PBSpawnItemEntry> spawns_sg11;
-		spawns_sg11.push(additementry("Vulcanette", sg11_chaingun_spawn_bias));
-		addItem("PB_G11Spawn_Scoped", spawns_sg11, sg11_persistent_spawning);
+		spawns_sg11.push(additementry('Vulcanette', sg11_chaingun_spawn_bias));
+		addItem('PB_G11Spawn_Scoped', spawns_sg11, sg11_persistent_spawning);
 
 		// M5165
 		Array<PBSpawnItemEntry> spawns_m5165;
-		spawns_m5165.push(additementry("Vulcanette", m5165_chaingun_spawn_bias));
-		addItem("PB_A180Spawn", spawns_m5165, m5165_persistent_spawning);
+		spawns_m5165.push(additementry('Vulcanette', m5165_chaingun_spawn_bias));
+		addItem('PB_A180Spawn', spawns_m5165, m5165_persistent_spawning);
 
 		// Colt .355
 		Array<PBSpawnItemEntry> spawns_c355;
-		spawns_c355.push(additementry("Vulcanette", c355_chaingun_spawn_bias));
-		addItem("HDColt355", spawns_c355, c355_persistent_spawning);
+		spawns_c355.push(additementry('Vulcanette', c355_chaingun_spawn_bias));
+		addItem('HDColt355', spawns_c355, c355_persistent_spawning);
 
 		// FN FAL
 		Array<PBSpawnItemEntry> spawns_fal;
-		spawns_fal.push(additementry("Vulcanette", fal_chaingun_spawn_bias));
-		spawns_fal.push(additementry("LiberatorRifle", fal_plasma_spawn_bias));
-		addItem("HD_FNFAL", spawns_fal, fal_persistent_spawning);
+		spawns_fal.push(additementry('Vulcanette', fal_chaingun_spawn_bias));
+		spawns_fal.push(additementry('LiberatorRifle', fal_plasma_spawn_bias));
+		addItem('HD_FNFAL', spawns_fal, fal_persistent_spawning);
 
 		// Steyr ACR
 		Array<PBSpawnItemEntry> spawns_acr;
-		spawns_acr.push(additementry("Vulcanette", acr_chaingun_spawn_bias));
-		spawns_acr.push(additementry("LiberatorRifle", acr_plasma_spawn_bias));
-		addItem("PB_SteyrACR_Spawn", spawns_acr, acr_persistent_spawning);
+		spawns_acr.push(additementry('Vulcanette', acr_chaingun_spawn_bias));
+		spawns_acr.push(additementry('LiberatorRifle', acr_plasma_spawn_bias));
+		addItem('PB_SteyrACR_Spawn', spawns_acr, acr_persistent_spawning);
 
 		// Devincenzia
 		Array<PBSpawnItemEntry> spawns_devin;
-		spawns_devin.push(additementry("LiberatorRifle", devin_plasma_spawn_bias));
-		addItem("HD_ATCDevincenzia", spawns_devin, devin_persistent_spawning);
+		spawns_devin.push(additementry('LiberatorRifle', devin_plasma_spawn_bias));
+		addItem('HD_ATCDevincenzia', spawns_devin, devin_persistent_spawning);
 
 		// Kelenken
 		Array<PBSpawnItemEntry> spawns_kelen;
-		spawns_kelen.push(additementry("BFG9K", kelen_bfg_spawn_bias));
-		addItem("PB_KelenkenSpawn", spawns_kelen, kelen_persistent_spawning);
+		spawns_kelen.push(additementry('BFG9K', kelen_bfg_spawn_bias));
+		addItem('PB_KelenkenSpawn', spawns_kelen, kelen_persistent_spawning);
 
 		// Smartgun
 		Array<PBSpawnItemEntry> spawns_smartgun;
-		spawns_smartgun.push(additementry("BFG9K", smartgun_bfg_spawn_bias));
-		addItem("PB_SmartgunSpawn", spawns_smartgun, smartgun_persistent_spawning);
+		spawns_smartgun.push(additementry('BFG9K', smartgun_bfg_spawn_bias));
+		addItem('PB_SmartgunSpawn', spawns_smartgun, smartgun_persistent_spawning);
 
 		// Deuce
 		Array<PBSpawnItemEntry> spawns_deuce;
-		spawns_deuce.push(additementry("BFG9K", deuce_bfg_spawn_bias));
-		addItem("PB_MaDeuceSpawn", spawns_deuce, deuce_persistent_spawning);
+		spawns_deuce.push(additementry('BFG9K', deuce_bfg_spawn_bias));
+		addItem('PB_MaDeuceSpawn', spawns_deuce, deuce_persistent_spawning);
 
 		// Railgun
 		Array<PBSpawnItemEntry> spawns_railgun;
-		spawns_railgun.push(additementry("BFG9K", railgun_bfg_spawn_bias));
-		addItem("PB_RailGunSpawn", spawns_railgun, railgun_persistent_spawning);
+		spawns_railgun.push(additementry('BFG9K', railgun_bfg_spawn_bias));
+		addItem('PB_RailGunSpawn', spawns_railgun, railgun_persistent_spawning);
 
 		// Fire extinguisher
 		Array<PBSpawnItemEntry> spawns_extinguisher;
-		spawns_extinguisher.push(additementry("HD4mMag", extinguisher_clipmag_spawn_bias));
-		addItem("HDFireExtinguisher", spawns_extinguisher, extinguisher_persistent_spawning);
+		spawns_extinguisher.push(additementry('HD4mMag', extinguisher_clipmag_spawn_bias));
+		addItem('HDFireExtinguisher', spawns_extinguisher, extinguisher_persistent_spawning);
 
 		// Mk. 23 SOCOM
 		Array<PBSpawnItemEntry> spawns_socom;
-		spawns_socom.push(additementry("HdAmBoxUnarmed", mk23_ammobox_spawn_bias));
-		spawns_socom.push(additementry("HdAmBox", mk23_ammobox_spawn_bias));
-		addItem("PB_MK23SOCOMSpawn", spawns_socom, mk23_persistent_spawning);
+		spawns_socom.push(additementry('HdAmBoxUnarmed', mk23_ammobox_spawn_bias));
+		spawns_socom.push(additementry('HdAmBox', mk23_ammobox_spawn_bias));
+		addItem('PB_MK23SOCOMSpawn', spawns_socom, mk23_persistent_spawning);
 
 		// Pistol Stuff
 		// FIXME: Not even sure what this spawns
 		/*Array<PBSpawnItemEntry> spawns_pistols;
-		spawns_pistols.push(additementry("HDHandgunRandomDrop", pistols_handgun_spawn_bias));
-		addItem("PB_PistolDropper", spawns_pistols, pistols_persistent_spawning);*/
+		spawns_pistols.push(additementry('HDHandgunRandomDrop', pistols_handgun_spawn_bias));
+		addItem('PB_PistolDropper', spawns_pistols, pistols_persistent_spawning);*/
 
 		//------------
 		// Ammunition
@@ -424,62 +460,62 @@ class PBWepsHandler : EventHandler {
 
 		// Mk. 23 SOCOM Magazine
 		Array<PBSpawnItemEntry> spawns_socommag;
-		spawns_socommag.push(additementry("HD4mMag", mk23_magazine_spawn_bias));
-		addItem("HDMK23SOCOM_Mag", spawns_socommag, mk23mag_persistent_spawning);
+		spawns_socommag.push(additementry('HD4mMag', mk23_magazine_spawn_bias));
+		addItem('HDMK23SOCOM_Mag', spawns_socommag, mk23mag_persistent_spawning);
 
 		// MAC-11 Magazine
 		Array<PBSpawnItemEntry> spawns_mac11mag;
-		spawns_mac11mag.push(additementry("HD4mMag", mac11mag_magazine_spawn_bias));
-		addItem("HDMAC10_Mag", spawns_mac11mag, mac11mag_persistent_spawning);
+		spawns_mac11mag.push(additementry('HD4mMag', mac11mag_magazine_spawn_bias));
+		addItem('HDMAC10_Mag', spawns_mac11mag, mac11mag_persistent_spawning);
 
 		// .50 AM Magazine
 		Array<PBSpawnItemEntry> spawns_50ammag;
-		spawns_50ammag.push(additementry("HD4mMag", mag50am_magazine_spawn_bias));
-		spawns_50ammag.push(additementry("ShellBoxPickup", mag50am_shellbox_spawn_bias));
-		addItem("HD50AM_Mag", spawns_50ammag, mag50am_persistent_spawning);
+		spawns_50ammag.push(additementry('HD4mMag', mag50am_magazine_spawn_bias));
+		spawns_50ammag.push(additementry('ShellBoxPickup', mag50am_shellbox_spawn_bias));
+		addItem('HD50AM_Mag', spawns_50ammag, mag50am_persistent_spawning);
 
 		// M165 Magazine
 		Array<PBSpawnItemEntry> spawns_m165mag;
-		spawns_m165mag.push(additementry("HD4mMag", m165mag_magazine_spawn_bias));
-		addItem("HD_M165Mag", spawns_m165mag, m165mag_persistent_spawning);
+		spawns_m165mag.push(additementry('HD4mMag', m165mag_magazine_spawn_bias));
+		addItem('HD_M165Mag', spawns_m165mag, m165mag_persistent_spawning);
 
 		// Steyr ACR Magazine
 		Array<PBSpawnItemEntry> spawns_acrmag;
-		spawns_acrmag.push(additementry("HD4mMag", acrmag_magazine_spawn_bias));
-		spawns_acrmag.push(additementry("HDBattery", acrmag_cell_spawn_bias));
-		addItem("PB_HDSteyrACRMag", spawns_acrmag, acrmag_persistent_spawning);
+		spawns_acrmag.push(additementry('HD4mMag', acrmag_magazine_spawn_bias));
+		spawns_acrmag.push(additementry('HDBattery', acrmag_cell_spawn_bias));
+		addItem('PB_HDSteyrACRMag', spawns_acrmag, acrmag_persistent_spawning);
 
 		// 8mm EC
 		Array<PBSpawnItemEntry> spawns_8mmec;
-		spawns_8mmec.push(additementry("RocketBigPickup", ec8mm_rocketbox_spawn_bias));
-		spawns_8mmec.push(additementry("HDBattery", ec8mm_cell_spawn_bias));
-		spawns_8mmec.push(additementry("HD7mMag", ec8mm_cellpack_spawn_bias));
-		addItem("HD8mmECAmmoBox", spawns_8mmec, ec8mm_persistent_spawning);
+		spawns_8mmec.push(additementry('RocketBigPickup', ec8mm_rocketbox_spawn_bias));
+		spawns_8mmec.push(additementry('HDBattery', ec8mm_cell_spawn_bias));
+		spawns_8mmec.push(additementry('HD7mMag', ec8mm_cellpack_spawn_bias));
+		addItem('HD8mmECAmmoBox', spawns_8mmec, ec8mm_persistent_spawning);
 
 		// G11 Magazine
 		Array<PBSpawnItemEntry> spawns_g11mag;
-		spawns_g11mag.push(additementry("HD4mMag", g11mag_magazine_spawn_bias));
-		spawns_g11mag.push(additementry("ShellBoxPickup", g11mag_shellbox_spawn_bias));
-		addItem("HDG11Mag", spawns_g11mag, g11mag_persistent_spawning);
+		spawns_g11mag.push(additementry('HD4mMag', g11mag_magazine_spawn_bias));
+		spawns_g11mag.push(additementry('ShellBoxPickup', g11mag_shellbox_spawn_bias));
+		addItem('HDG11Mag', spawns_g11mag, g11mag_persistent_spawning);
 
 		// Colt .355 Magazine
 		Array<PBSpawnItemEntry> spawns_c35mag;
-		spawns_c35mag.push(additementry("HdAmBoxUnarmed", c35mag_ambox_spawn_bias));
-		spawns_c35mag.push(additementry("HdAmBox", c35mag_ambox_spawn_bias));
-		addItem("HDColt9mmMag25", spawns_c35mag, c35mag_persistent_spawning);
+		spawns_c35mag.push(additementry('HdAmBoxUnarmed', c35mag_ambox_spawn_bias));
+		spawns_c35mag.push(additementry('HdAmBox', c35mag_ambox_spawn_bias));
+		addItem('HDColt9mmMag25', spawns_c35mag, c35mag_persistent_spawning);
 
 		// FN FAL Magazine
 		Array<PBSpawnItemEntry> spawns_falmag;
-		spawns_falmag.push(additementry("HDBattery", falmag_cell_spawn_bias));
-		spawns_falmag.push(additementry("HD7mMag", falmag_cellpack_spawn_bias));
-		addItem("HD_FALMag", spawns_falmag, falmag_persistent_spawning);
+		spawns_falmag.push(additementry('HDBattery', falmag_cell_spawn_bias));
+		spawns_falmag.push(additementry('HD7mMag', falmag_cellpack_spawn_bias));
+		addItem('HD_FALMag', spawns_falmag, falmag_persistent_spawning);
 
 		// PSG-1 Magazine
 		Array<PBSpawnItemEntry> spawns_psgmag;
-		spawns_psgmag.push(additementry("ShellBoxPickup", psgmag_cell_spawn_bias));
-		spawns_psgmag.push(additementry("HdAmBoxUnarmed", psgmag_cellpack_spawn_bias));
-		spawns_psgmag.push(additementry("HdAmBox", psgmag_cellpack_spawn_bias));
-		addItem("PB_PSG1_MAG", spawns_psgmag, psgmag_persistent_spawning);
+		spawns_psgmag.push(additementry('ShellBoxPickup', psgmag_cell_spawn_bias));
+		spawns_psgmag.push(additementry('HdAmBoxUnarmed', psgmag_cellpack_spawn_bias));
+		spawns_psgmag.push(additementry('HdAmBox', psgmag_cellpack_spawn_bias));
+		addItem('PB_PSG1_MAG', spawns_psgmag, psgmag_persistent_spawning);
 	}
 
 	// Random stuff, stores it and forces negative values just to be 0.
@@ -510,9 +546,19 @@ class PBWepsHandler : EventHandler {
 		return false;
 	}
 
-	override void worldThingSpawned(WorldEvent e) {
+	override void worldLoaded(WorldEvent e) {
+
 		// Populates the main arrays if they haven't been already.
 		if (!cvarsAvailable) init();
+
+        foreach (bl : backpackBlacklist) {
+			if (hd_debug) console.printf("Removing "..bl.getClassName().." from Backpack Spawn Pool");
+                
+			BPSpawnPool.removeItem(bl);
+        }
+	}
+
+	override void worldThingSpawned(WorldEvent e) {
 
 		// If thing spawned doesn't exist, quit
 		if (!e.thing) return;
@@ -521,7 +567,6 @@ class PBWepsHandler : EventHandler {
 		foreach (bl : blacklist) if (e.thing is bl) return;
 
 		string candidateName = e.thing.getClassName();
-		candidateName = candidateName.makeLower();
 
 		// Pointers for specific classes.
 		let ammo = HDAmmo(e.thing);
@@ -530,13 +575,40 @@ class PBWepsHandler : EventHandler {
 		if (ammo) handleAmmoUses(ammo, candidateName);
 
 		// Return if range before replacing things.
-		if (level.MapName ~== "RANGE") return;
+        if (level.MapName == 'RANGE') return;
 
-		handleWeaponReplacements(e.thing, ammo, candidateName);
-	}
+        if (e.thing is 'HDAmBox') {
+            handleAmmoBoxLootTable();
+        } else {
+			handleWeaponReplacements(e.thing, ammo, candidateName);
+		}
+    }
+
+    private void handleAmmoBoxLootTable() {
+        if (!ammoBoxList) {
+            ammoBoxList = HDAmBoxList.Get();
+
+            foreach (bl : backpackBlacklist) {
+                let index = ammoBoxList.invClasses.find(bl.getClassName());
+
+                if (index != ammoBoxList.invClasses.Size()) {
+                    if (hd_debug) console.printf("Removing "..bl.getClassName().." from Ammo Box Loot Table");
+
+                    ammoBoxList.invClasses.Delete(index);
+                }
+            }
+        }
+    }
 
 	private void handleAmmoUses(HDAmmo ammo, string candidateName) {
-		foreach (ammoSpawn : ammoSpawnList) if (candidateName == ammoSpawn.ammoName) ammo.itemsThatUseThis.copy(ammoSpawn.weaponNames);
+        foreach (ammoSpawn : ammoSpawnList) if (candidateName ~== ammoSpawn.ammoName) {
+            if (hd_debug) {
+                console.printf("Adding the following to the list of items that use "..ammo.getClassName().."");
+                foreach (weapon : ammoSpawn.weaponNames) console.printf("* "..weapon);
+            }
+
+            ammo.itemsThatUseThis.append(ammoSpawn.weaponNames);
+        }
 	}
 
 	private void handleWeaponReplacements(Actor thing, HDAmmo ammo, string candidateName) {
@@ -552,7 +624,7 @@ class PBWepsHandler : EventHandler {
 			let item = Inventory(thing);
 			if ((prespawn || itemSpawn.isPersistent) && (!(item && item.owner) && (!ammo || prespawn))) {
 				foreach (spawnReplace : itemSpawn.spawnReplaces) {
-					if (spawnReplace.name == candidateName) {
+					if (spawnReplace.name ~== candidateName) {
 						if (hd_debug) console.printf("Attempting to replace "..candidateName.." with "..itemSpawn.spawnName.."...");
 
                         if (tryCreateItem(thing, itemSpawn.spawnName, spawnReplace.chance, itemSpawn.replaceItem)) return;
